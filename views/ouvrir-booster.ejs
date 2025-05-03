@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Ouverture du Booster</title>
+  <link rel="stylesheet" href="/css/output.css">
+  <link rel="stylesheet" href="/card-style.css">
+
+  <style>
+
+@keyframes shine {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shine {
+  background-image: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.7) 50%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  background-size: 200% 100%;
+  animation: shine 3s infinite;
+}
+
+
+.glow {
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.6);
+  animation: glowAnimation 2s infinite alternate;
+}
+
+@keyframes glowAnimation {
+  from { box-shadow: 0 0 10px 3px rgba(255, 255, 255, 0.4); }
+  to { box-shadow: 0 0 20px 6px rgba(255, 255, 255, 0.7); }
+}
+
+
+
+
+
+      .centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Très important : hauteur minimum de la page */
+  }
+    .carte {
+      width: 215px;
+      height: 315px;
+      perspective: 1000px;
+      cursor: pointer;
+      margin: 20px;
+    }
+    .carte-inner {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+    }
+    .carte.reveal .carte-inner {
+      transform: rotateY(180deg);
+    }
+    .carte-front, .carte-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+    }
+    .carte-front {
+      transform: rotateY(180deg);
+    }
+    .carte-back {
+      background: url('/img_Cartes/dos_carte.webp') center/cover no-repeat;
+      background-size: cover;
+      background-position: center;
+      background-color: #333;
+    }
+    .booster {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .carte:not(.reveal) form {
+  display: none;
+}
+  </style>
+</head>
+
+<body class="centered">
+  <header class="flex justify-between items-center p-6 w-full bg-white shadow">
+    <div class="text-4xl font-bold text-principal-800">
+      Ouverture du Booster
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center bg-white rounded-lg p-2 shadow">
+        <img src="/img/Teckel-Coins.png" class="w-6 mr-2" alt="Jetons" />
+        <span class="text-lg font-bold">
+          <%= utilisateur.jetons %>
+        </span>
+      </div>
+      <a href="/" class="text-principal-800 font-bold text-2xl hover:underline">Accueil</a>
+    </div>
+  </header>
+
+  <div class="booster gap-y-14">
+    <% cartes.forEach(carte => { %>
+<div class="carte">
+  <div class="carte-inner">
+    <div class="carte-back"></div>
+
+    <div class="carte-front">
+      <div class="container">
+        <% 
+          // Attribution des classes selon le Tier
+          let borderClass = '';
+          let cardClass = '';
+
+          switch (carte.tier) {
+            case 'T1':
+              borderClass = 'brillante';
+              cardClass = 'brillante';
+              break;
+            case 'T2':
+              borderClass = 'rainbow-border';
+              break;
+            case 'T3':
+              borderClass = 'nb';
+              cardClass = 'nb';
+              break;
+            case 'T4':
+              borderClass = 'nb-rainbow';
+              cardClass = 'nb-rainbow';
+              break;
+          }
+        %>
+        <div class="border border-0 <%= borderClass %>" style="background-color: <%= color1[carte.rarete_id] %>;">
+          <div class="card <%= cardClass %>" style="background-color: <%= color2[carte.rarete_id] %>;">
+            <img src="/img_Cartes/Teckel_<%= carte.numero %>.webp" alt="<%= carte.nom %>">
+            <div class="details">
+              <div class="name"><%= carte.nom %></div>
+              <div class="desc"><%= carte.description %></div>
+              <div class="icon" style="background-color: <%= color1[carte.rarete_id] %>;">
+                <%= rarityLetters[carte.rarete_id] %>
+              </div>
+              <div class="id"><%= carte.numero %>/100</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Badge Tier visuel -->
+      <div class="badge-tier mt-1 text-sm font-bold text-center">
+        <span class="inline-block px-2 py-1 rounded 
+          <% if (carte.tier === 'T0') { %>bg-gray-300 text-gray-800<% } %>
+          <% if (carte.tier === 'T1') { %>bg-blue-400 text-white<% } %>
+          <% if (carte.tier === 'T2') { %>bg-purple-500 text-white<% } %>
+          <% if (carte.tier === 'T3') { %>bg-slate-600 text-white<% } %>
+          <% if (carte.tier === 'T4') { %>bg-yellow-400 text-black font-extrabold shadow<% } %>">
+          <% if (carte.tier === 'T0') { %>T0<% } %>
+          <% if (carte.tier === 'T1') { %>✨ T1<% } %>
+          <% if (carte.tier === 'T2') { %>🔮 T2<% } %>
+          <% if (carte.tier === 'T3') { %>⚫ T3<% } %>
+          <% if (carte.tier === 'T4') { %>💎 T4<% } %>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <% }); %>
+  </div>
+
+
+  <br><br>
+  <div class="flex items-center justify-center">
+  <a href="/" id="retour-accueil" class="hidden mt-8 mx-4 px-4 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600 transition">
+    🏠 Retour à l'accueil
+  </a>
+  <a href="/ouvrir-booster?booster=<%= session.dernierBoosterOuvert %>" 
+    id="ouvrir-nouveau" 
+    class=" hidden mt-8 mx-4 px-4 py-2 bg-green-500 text-white font-bold rounded hover:bg-green-600 transition">
+   🎁 Ouvrir un autre booster
+ </a>
+</div>
+
+
+
+  <script>
+    let cartesRestantes = <%= cartes.length %>;
+    
+    function vendreCarte(event, carteId) {
+      event.preventDefault();
+    
+      fetch('/vendre-direct', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `carte_id=${carteId}&quantite=1&type=nb_exemplaires`
+      })
+      .then(response => {
+        if (response.ok) {
+          afficherMessage('🎉 Carte vendue avec succès !', true);
+        } else {
+          afficherMessage('❌ Erreur lors de la vente.', false);
+        }
+      })
+      .catch(error => {
+        console.error('Erreur:', error);
+        afficherMessage('❌ Erreur réseau.', false);
+      });
+    }
+    
+    function afficherMessage(message, succes) {
+      const msgDiv = document.createElement("div");
+      msgDiv.className = `fixed top-10 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-lg shadow-lg ${
+        succes ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+      }`;
+      msgDiv.innerText = message;
+      document.body.appendChild(msgDiv);
+    
+      setTimeout(() => {
+        msgDiv.remove();
+      }, 1000);
+    }
+
+    
+    // 🔥 NE PAS QUITTER LE BOOSTER SI PAS TOUTES LES CARTES RÉVÉLÉES
+    document.querySelectorAll('.carte').forEach(carte => {
+  carte.addEventListener('click', () => {
+    if (!carte.classList.contains('reveal')) {
+      carte.classList.add('reveal');
+      cartesRestantes--;
+      if (cartesRestantes === 0) {
+        document.getElementById('retour-accueil').classList.remove('hidden');
+        document.getElementById('ouvrir-nouveau').classList.remove('hidden');
+        toutesCartesOuvertes(); // ✅ appel ici
+      }
+    }
+  });
+});
+    
+    // Masquer le bouton Accueil tant que pas fini
+    window.onload = () => {
+  const nonRevelees = document.querySelectorAll('.carte:not(.reveal)');
+  cartesRestantes = nonRevelees.length;
+
+  if (cartesRestantes === 0) {
+    document.getElementById('retour-accueil').classList.remove('hidden');
+  } else {
+    document.getElementById('retour-accueil').classList.add('hidden');
+  }
+};
+
+
+    function toutesCartesOuvertes() {
+  // Supprimer le booster en cours de la session
+  fetch('/finir-booster', { method: 'POST' })
+    .then(() => {
+      console.log('✅ Booster terminé.');
+    });
+}
+
+
+
+
+      function tirerTier() {
+        const random = Math.random() * 100;
+        if (random < 88.78) return 'T0';
+        if (random < 88.78 + 10) return 'T1';
+        if (random < 88.78 + 10 + 1) return 'T2';
+        if (random < 88.78 + 10 + 1 + 0.2) return 'T3';
+        return 'T4';
+      }
+
+      const champParTier = {
+  T0: 'nb_exemplaires',
+  T1: 'nb_brillante',
+  T2: 'nb_alternative',
+  T3: 'nb_noir_blanc',
+  T4: 'nb_gold'
+};
+
+const prixParRareteEtTier = {
+  1: { T0: 1, T1: 5, T2: 30, T3: 225, T4: 2250 },
+  2: { T0: 2, T1: 10, T2: 60, T3: 450, T4: 4500 },
+  3: { T0: 5, T1: 25, T2: 150, T3: 1125, T4: 11250 },
+  4: { T0: 10, T1: 50, T2: 300, T3: 2250, T4: 22500 },
+  5: { T0: 20, T1: 100, T2: 600, T3: 4500, T4: 45000 },
+  6: { T0: 50, T1: 250, T2: 1500, T3: 11250, T4: 112500 }
+};
+
+
+    </script>
+    
+    
+</body>
+</html>

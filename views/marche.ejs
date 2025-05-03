@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Marché</title>
+  <link rel="stylesheet" href="/css/output.css">
+  <link rel="stylesheet" href="/card-style.css">
+  <style>
+    @keyframes shine {
+      0% { background-position: -100% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shine {
+      background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.373) 0%, rgba(255, 255, 255, 0.675) 50%, rgba(255, 255, 255, 0.297) 100%);
+      background-size: 200% 100%;
+      animation: shine 3s infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen mb-10">
+  <!-- HEADER -->
+  <header class="flex justify-between items-center p-6 bg-white shadow">
+    <div class="text-4xl font-bold text-principal-800">Marché</div>
+    <div class="flex items-center gap-4">
+      <div class="flex items-center bg-white rounded-lg p-2 shadow">
+        <img src="/img/Teckel-Coins.png" class="w-6 mr-2" alt="Jetons" />
+        <span class="text-lg font-bold">
+          <%= utilisateur.jetons %>
+        </span>
+      </div>
+      <a href="/" class="text-principal-800 font-bold text-2xl hover:underline">Accueil</a>
+    </div>
+  </header>
+
+  <!-- BOUTIQUE TIER -->
+<section class="bg-white mx-auto max-w-4xl rounded-xl shadow p-6 mt-8">
+  <h2 class="text-2xl font-bold text-center mb-4">🎁 Boutique aléatoire</h2>
+
+  <form action="/marche/acheter" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Carte T1 -->
+    <button name="type" value="carteT1" class="p-4 border rounded-lg bg-blue-100 hover:bg-blue-200 text-left flex flex-col">
+      <h3 class="font-bold text-lg">Carte T1 (Brillante)</h3>
+      <p class="text-sm text-gray-700">Obtenez une carte de tier 1 (brillante)</p>
+      <p class="font-bold mt-2 text-blue-800">150 🪙</p>
+    </button>
+
+    <!-- Booster T1 -->
+    <button name="type" value="boosterT1" class="p-4 border rounded-lg bg-blue-300 hover:bg-blue-400 text-left flex flex-col">
+      <h3 class="font-bold text-lg">Booster T1</h3>
+      <p class="text-sm text-gray-700">3 cartes T1 aléatoires<br><span class="italic">+ 5% chance God Pack</span></p>
+      <p class="font-bold mt-2 text-blue-900">400 🪙</p>
+    </button>
+
+    <!-- Carte T2 -->
+    <button name="type" value="carteT2" class="p-4 border rounded-lg bg-purple-200 hover:bg-purple-300 text-left flex flex-col">
+      <h3 class="font-bold text-lg">Carte T2 (Alternative)</h3>
+      <p class="text-sm text-gray-700">Obtenez une carte de tier 2 (alternative)</p>
+      <p class="font-bold mt-2 text-purple-800">300 🪙</p>
+    </button>
+
+    <!-- Booster T2 -->
+    <button name="type" value="boosterT2" class="p-4 border rounded-lg bg-purple-400 hover:bg-purple-500 text-left flex flex-col">
+      <h3 class="font-bold text-lg">Booster T2</h3>
+      <p class="text-sm text-gray-700">3 cartes T2 aléatoires<br><span class="italic">+ 5% chance God Pack</span></p>
+      <p class="font-bold mt-2 text-purple-900">800 🪙</p>
+    </button>
+  </form>
+
+  <% if (success === 'ok') { %>
+    <p class="text-green-600 mt-4 text-center">✅ Achat réussi ! Cartes ajoutées à votre collection.</p>
+  <% } else if (success === 'notenough') { %>
+    <p class="text-red-600 mt-4 text-center">❌ Vous n'avez pas assez de jetons.</p>
+  <% } else if (success === 'error') { %>
+    <p class="text-red-700 mt-4 text-center">💥 Une erreur est survenue.</p>
+  <% } else if (success === 'invalid') { %>
+    <p class="text-yellow-600 mt-4 text-center">❗ Produit inconnu.</p>
+  <% } %>
+</section>
+
+
+  <!-- VENTES -->
+  <h2 class="text-2xl font-bold text-center mt-8 mb-4">🃏 Cartes en vente</h2>
+  <div class="flex flex-wrap justify-center gap-6 p-8">
+    <% ventes.forEach(vente => {
+      const tier = 'T' + vente.tier;
+      let cardClass = '';
+      if (tier === 'T1') cardClass = 'shine glow';
+      else if (tier === 'T2') cardClass = 'rainbow-border';
+      else if (tier === 'T3') cardClass = 'nb';
+      else if (tier === 'T4') cardClass = 'nb-rainbow';
+    %>
+      <div class="flex flex-col items-center">
+        
+        <div class="border border-0 relative rounded-2xl overflow-hidden w-[215px] h-[315px] <%= tier === 'T4' ? 'shiny-hover' : '' %> <%= cardClass %>"
+             style="background-color: <%= color1[vente.rarete] %>;">
+          <div class="absolute top-2 left-2 px-2 py-1 rounded-full text-xs font-bold text-white <%= 'badge-' + tier %>">
+            <%= tier %>
+          </div>
+          <div class="card relative rounded-xl overflow-hidden" style="background-color: <%= color2[vente.rarete] %>;">
+            <img src="/<%= vente.image_url.replace('./', '').replace('public/', '') %>" alt="<%= vente.nom %>" class="w-full h-60 object-cover">
+            <div class="details text-center text-xs p-2">
+              <div class="name font-bold text-lg <%= tier === 'T4' ? 'text-rainbow' : '' %>"><%= vente.nom %></div>
+              <div class="desc text-gray-600 mt-1">
+                <p>Vendu par <%= vente.vendeur %></p>
+                <p>Le <%= new Date(vente.date_vente).toLocaleDateString('fr-FR') %></p>
+                <p>Prix : <%= vente.prix_par_unite %> 🪙</p>
+              </div>
+              <div class="icon mt-2 p-1 rounded-full flex items-center justify-center"
+                   style="background-color: <%= color1[vente.rarete] %>; width: 36px; height: 36px;">
+                <span class="<%= tier === 'T4' ? 'text-rainbow' : 'text-white' %>">
+                  <%= rarityLetters[vente.rarete] %>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bouton d'achat -->
+        <form action="/acheter" method="POST" class="w-full mt-4">
+          <input type="hidden" name="vente_id" value="<%= vente.vente_id %>">
+          <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded w-full flex justify-center items-center gap-2">
+            Acheter pour <%= vente.prix_par_unite %>
+            <img src="/img/Teckel-Coins.png" alt="Coins" class="w-6">
+          </button>
+        </form>
+      </div>
+    <% }) %>
+  </div>
+
+  <script>
+    // Glow Hover dynamique
+    document.querySelectorAll('.border').forEach(border => {
+      border.addEventListener('mouseenter', () => {
+        border.style.boxShadow = '0 0 20px ' + getComputedStyle(border).backgroundColor;
+      });
+      border.addEventListener('mouseleave', () => {
+        border.style.boxShadow = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

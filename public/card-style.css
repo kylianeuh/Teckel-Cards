@@ -1,0 +1,701 @@
+.container {
+
+}
+
+.card img {
+    pointer-events: none;
+    /* Empêche le clic ou le drag sur l'image */
+}
+
+.border {
+    position: relative;
+    width: 215px;
+    /* Largeur de la carte + épaisseur de la "bordure" */
+    height: 315px;
+    /* Hauteur de la carte + épaisseur de la "bordure" */
+    border-radius: 20px;
+    /* Coins arrondis légèrement plus grands pour inclure la bordure */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid rgba(0, 0, 0, 0.1); /* léger contour sombre */
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    /* Ajoute une couleur de fond en surbrillance */
+    transition: all 0.5s ease-in-out;
+}
+
+.border:hover {
+    transform: scale(1.10);
+    transition: transform 0.5s;
+}
+
+.border::before {
+    content: '';
+    position: absolute;
+    opacity: 1;
+    /* Transparence */
+    pointer-events: none;
+    /* Ne pas interférer avec l'interaction */
+    border-radius: 20px;
+    /* S'aligne sur les coins arrondis de la bordure */
+}
+
+.card img {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+}
+
+.card .details {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card .details .name {
+    width: 100%;
+    height: 40px;
+    border: 1.5px solid #000;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card .details .icon {
+    width: 50px;
+    height: 50px;
+    border: 1.5px solid #000;
+    border-radius: 50%;
+    align-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.desc {
+    position: absolute;
+    right: inherit;
+    margin-top: 40px;
+    font-size: small;
+    max-width: 65%;
+}
+
+.name {
+    margin-top: -5px;
+    font-weight: 600;
+    font-size: 1rem;
+} 
+.id {margin-top: -10px;}
+
+/* ---- AJOUT DES STYLES POUR TOUS LES TYPES DE CARTES ---- */
+
+/* Styles communs pour les effets spéciaux */
+.holographic-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(125deg, 
+        rgba(255,255,255,0.05) 0%, 
+        rgba(255,255,255,0.2) 25%, 
+        rgba(255,255,255,0.05) 50%);
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 3;
+}
+
+@keyframes shine {
+    0% { left: -100%; opacity: 0.7; }
+    100% { left: 150%; opacity: 0.7; }
+}
+
+/* ---- CARTES BRILLANTES ---- */
+.brillante {
+    box-shadow: 0 0 10px rgba(173, 216, 230, 0.7);
+  }
+
+.border.brillante {
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.3) 100%);
+}
+.card.shine {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+  }
+
+.card.brillante {
+    position: relative;
+    overflow: hidden;
+    filter: contrast(1.1) saturate(1.3);
+}
+
+.card.brillante::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
+    z-index: 2;
+}
+
+.card.brillante img {
+    filter: brightness(1.05);
+}
+
+.border.brillante .details {
+    position: relative;
+    z-index: 1;
+}
+
+.border.brillante:hover {
+    box-shadow: 0 0 30px var(--glow-color, rgba(255, 255, 255, 0.8)), 0 0 60px rgba(255, 255, 255, 0.6);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
+/* ---- CARTES RAINBOW ---- */
+@keyframes rainbow-border {
+    0% { background: red; box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); }
+    14% { background: orange; box-shadow: 0 0 15px rgba(255, 165, 0, 0.8); }
+    28% { background: yellow; box-shadow: 0 0 15px rgba(255, 255, 0, 0.8); }
+    42% { background: green; box-shadow: 0 0 15px rgba(0, 128, 0, 0.8); }
+    56% { background: blue; box-shadow: 0 0 15px rgba(0, 0, 255, 0.8); }
+    70% { background: indigo; box-shadow: 0 0 15px rgba(75, 0, 130, 0.8); }
+    85% { background: violet; box-shadow: 0 0 15px rgba(238, 130, 238, 0.8); }
+    100% { background: red; box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); }
+}
+
+.border.rainbow-border {
+    animation: rainbow-border 6s linear infinite;
+}
+
+.border.rainbow-border:hover {
+    animation: rainbow-border 2s linear infinite;
+    transform: translateY(-5px) scale(1.02);
+    transition: all 0.3s ease;
+}
+
+/* ---- CARTES NOIR ET BLANC ---- */
+.card.nb img {
+    filter: grayscale(80%) brightness(1.05);
+}
+
+.card.nb::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
+    z-index: 2;
+}
+
+.border.nb {
+    background-image: linear-gradient(45deg, 
+        #222 0%, 
+        #999 50%, 
+        #222 100%);
+    box-shadow: 0 0 20px rgba(150, 150, 150, 0.8);
+}
+
+.border.nb:hover {
+    box-shadow: 0 0 30px rgba(200, 200, 200, 0.8), 0 0 60px rgba(255, 255, 255, 0.6);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+
+/* ---- CARTES NOIR ET BLANC RAINBOW ---- */
+.card.nb-rainbow {
+    position: relative;
+    overflow: hidden;
+}
+
+.card.nb-rainbow img {
+    filter: grayscale(80%) brightness(1.05);
+}
+
+.card.nb-rainbow::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
+    z-index: 2;
+}
+
+/* ---- STYLES POUR L'AFFICHAGE DES COLLECTIONS ---- */
+.listcard {
+    list-style-type: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+}
+
+.listcard li {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    width: auto;
+}
+
+.listcard li:hover {
+    background-color: #f9f9f9;
+    scale: 1.05;
+}
+
+/* Style pour les compteurs des différents types de cartes */
+.card-counters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.card-counter {
+    flex: 1;
+    min-width: 40%;
+    padding: 3px;
+    font-size: 0.85em;
+    border-radius: 3px;
+}
+
+.counter-basic {
+    background-color: #f0f0f0;
+}
+
+.counter-shiny {
+    background-color: #fff8e1;
+}
+
+.counter-rainbow {
+    background: linear-gradient(90deg, rgba(255,0,0,0.2), rgba(255,165,0,0.2), rgba(255,255,0,0.2), rgba(0,128,0,0.2), rgba(0,0,255,0.2));
+}
+
+.counter-nb {
+    background-color: #e0e0e0;
+}
+
+.counter-nb-rainbow {
+    background: linear-gradient(90deg, #e0e0e0, rgba(255,0,0,0.2), rgba(0,0,255,0.2), #e0e0e0);
+}
+
+/* Hiérarchie de rareté visuelle pour l'affichage des cartes */
+.border.nb-rainbow:hover {
+    transform: translateY(-5px) scale(1.03);
+    transition: all 0.3s ease;
+}
+
+/* ---- Indicateurs de type de carte ---- */
+.type-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8em;
+    font-weight: bold;
+    z-index: 4;
+}
+
+.type-shiny .type-indicator {
+    color: gold;
+}
+
+.type-rainbow .type-indicator {
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+    color: white;
+}
+
+.type-nb .type-indicator {
+    background: linear-gradient(90deg, #222, #999);
+    color: white;
+}
+
+.type-nb-rainbow .type-indicator {
+    background: linear-gradient(90deg, #222, red, blue, #222);
+    color: white;
+}
+
+.card.nb-brillante {
+    filter: grayscale(80%) brightness(1.05) contrast(1.1) saturate(1.3);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card.nb-brillante::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
+    z-index: 2;
+  }
+
+  @keyframes shine {
+    0% {
+      background-position: -100% 0;
+    }
+
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  .shine {
+position: relative;
+background-image: linear-gradient(
+  120deg,
+  rgba(255, 255, 255, 0.2),
+  rgba(255, 255, 255, 0.9),
+  rgba(255, 255, 255, 0.2)
+);
+background-size: 300% 100%;
+animation: shine 1.5s linear infinite;
+z-index: 0;
+filter: brightness(1.22) contrast(1.05); /* ✨ ajoute du contraste et de la lumière */
+}
+
+.shine::before {
+content: '';
+position: absolute;
+inset: 0;
+border-radius: 20px;
+background: linear-gradient(
+  120deg,
+  rgba(255, 255, 255, 0.05),
+  rgba(255, 255, 255, 0.6),
+  rgba(255, 255, 255, 0.05)
+);
+background-size: 200% 100%;
+animation: shine 5s infinite linear;
+z-index: -1;
+mix-blend-mode: screen; /* ✨ rend l'effet plus visible même sur fond clair */
+}
+
+.card.nb-rainbow {
+    position: relative;
+    overflow: hidden;
+    filter: grayscale(80%) brightness(1.1) contrast(1.2) saturate(1.4);
+    box-shadow: 0 0 20px gold, 0 0 30px rgba(255, 215, 0, 0.6);
+  }
+  
+  .card.nb-rainbow::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: shine 3s infinite;
+    z-index: 2;
+  }
+
+  .card.nb-rainbow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 215, 0, 0.1), transparent),
+                radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.05), transparent);
+    animation: goldFlow 4s infinite alternate;
+    z-index: 1;
+  }
+  
+  @keyframes goldFlow {
+    0% {
+      background-position: 0% 0%;
+    }
+    100% {
+      background-position: 100% 100%;
+    }
+  }
+
+  .nb-rainbow {
+    border: 4px solid gold;
+    box-shadow: 0 0 15px gold;
+    animation: goldShine 2s infinite;
+  }
+  
+  @keyframes goldShine {
+    0% { box-shadow: 0 0 10px gold; }
+    50% { box-shadow: 0 0 20px white; }
+    100% { box-shadow: 0 0 10px gold; }
+  }
+
+  .badge-t4 {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    z-index: 0;
+  }
+  
+  /* le cercle animé en fond */
+  .badge-t4::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(
+      from 0deg,
+      gold,
+      red,
+      deeppink,
+      violet,
+      blue,
+      cyan,
+      lime,
+      yellow,
+      gold
+    );
+    animation: spinBadge 8s linear infinite;
+    z-index: -1;
+  }
+  @keyframes spinBadge {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+
+  .text-rainbow {
+    background: linear-gradient(
+      270deg,
+      #ff0000,
+      #ffa500,
+      #ffff00,
+      #00ff00,
+      #00ffff,
+      #0000ff,
+      #8a2be2,
+      #ff0000
+    );
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbowText 5s linear infinite;
+  }
+  
+  @keyframes rainbowText {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 100% 50%;
+    }
+  }
+  .shiny-effect {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .shiny-effect::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.0) 30%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0.0) 70%
+    );
+    transform: rotate(25deg);
+    animation: shineMove 2.5s ease-in-out infinite;
+  }
+  
+  @keyframes shineMove {
+    0% {
+      transform: translateX(-100%) rotate(25deg);
+    }
+    100% {
+      transform: translateX(100%) rotate(25deg);
+    }
+  }
+  
+  /* Texte arc-en-ciel animé */
+.text-rainbow {
+  background: linear-gradient(
+    270deg,
+    #ff0000,
+    #ffa500,
+    #ffff00,
+    #00ff00,
+    #00ffff,
+    #0000ff,
+    #8a2be2,
+    #ff0000
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbowText 5s linear infinite;
+}
+
+@keyframes rainbowText {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* Brillance hover (T4) */
+.shiny-hover {
+  position: relative;
+  overflow: hidden;
+}
+.shiny-hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-20deg);
+  pointer-events: none;
+}
+.shiny-hover:hover::before {
+  animation: shineSwipe 1.2s ease-out;
+}
+@keyframes shineSwipe {
+  0% { left: -75%; }
+  100% { left: 125%; }
+}
+
+/* Badges Tiers */
+.badge-T0 { background-color: #999; }
+.badge-T1 { background-color: #3b82f6; }
+.badge-T2 {
+  background: linear-gradient(to right, violet, cyan);
+  color: black;
+}
+.badge-T3 { background-color: #333; color: white; }
+.badge-T4 {
+  background: gold;
+  color: black;
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+}
+
+/* Styles de carte par Tier (optionnel) */
+.nb { filter: grayscale(100%); }
+.nb-rainbow { box-shadow: 0 0 10px gold; }
+
+/* Badge TIER affiché sur les cartes */
+.badge-T0 {
+  background-color: #a3a3a3;
+  color: white;
+}
+.badge-T1 {
+  background-color: #3b82f6;
+  color: white;
+}
+.badge-T2 {
+  background: linear-gradient(to right, violet, cyan);
+  color: black;
+}
+.badge-T3 {
+  background-color: #333;
+  color: white;
+}
+.badge-T4 {
+  background-color: gold;
+  color: black;
+  box-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+}
+
+/* Position du badge */
+.badge-tier {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: bold;
+  border-radius: 9999px;
+  z-index: 10;
+}

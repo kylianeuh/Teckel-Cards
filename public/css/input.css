@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+@theme {
+    --color-principal-800:#75FFF1;
+    --color-principal-200:#6CE4D8;
+    --color-mint-green-100:#EDFFFC;
+    --color-dark-gray:#222222;
+    --color-text-dark:#222222;
+    --color-text-white:#ffffff;
+    --font-grotesque:"darker grotesque","sans serif";
+
+}
+
+@layer base {
+  h1 {
+    @apply ml-3 mt-8 mb-5 text-3xl text-text-dark uppercase;
+
+  }
+  h1 > span {
+    @apply bg-dark-gray w-35 h-0.25 block;
+  }
+
+}
+@layer components {
+
+        /* Button Mint  */
+
+        .button-mint {
+          @apply relative bg-mint-green-100 w-40 h-10 border-1 rounded-4xl z-20 overflow-hidden;
+        }
+        
+        .button-mint > div {
+          @apply absolute left-0.5 bottom-0.5 z-10 w-full h-full bg-mint-green-100 border-1 rounded-4xl duration-100 ease-in;
+        }
+        
+        .button-mint > div > a {
+          @apply flex justify-center items-center w-full h-full text-lg text-black uppercase;
+        }
+        
+        .button-mint:active > div {
+          @apply left-0 bottom-0;
+        }
+
+        /* Button Principal */
+
+        .button-principal {
+            @apply relative bg-principal-800 w-40 h-10 border-1 rounded-4xl z-20 overflow-hidden;
+        }
+        
+        .button-principal > div {
+            @apply absolute left-0.5 bottom-0.5 z-10 w-full h-full bg-principal-800 border-1 rounded-4xl duration-100 ease-in;
+        }
+        
+        .button-principal > div > a {
+            @apply flex justify-center items-center w-full h-full text-lg text-black uppercase;
+        }
+        
+        .button-principal:active > div {
+            @apply bg-principal-200 left-0 bottom-0;
+        }
+
+        /* Button Red */
+
+        .button-red {
+            @apply relative bg-red-400 w-40 h-10 border-1 rounded-4xl z-20 overflow-hidden;
+        }
+        
+        .button-red > div {
+            @apply absolute left-0.5 bottom-0.5 z-10 w-full h-full bg-red-400 border-1 rounded-4xl duration-100 ease-in;
+        }
+        
+        .button-red > div > a {
+            @apply flex justify-center items-center w-full h-full text-lg text-black uppercase;
+        }
+        
+        .button-red:active > div {
+            @apply bg-red-500 left-0 bottom-0;
+        }
+
+        
+        /* Button Mint XL */
+      
+        .button-mint-xl {
+            @apply bg-mint-green-100 w-55 h-15 border-3 rounded-4xl z-20 relative;
+        }
+        
+        .button-mint-xl > div {
+          @apply bg-mint-green-100 w-55 h-15 border-3 rounded-4xl absolute left-1 bottom-1 z-10 duration-100 ease-in;
+        }
+        
+        .button-mint-xl > div > a, .button-mint-xl > div > button {
+          @apply flex justify-center items-center w-full h-full text-2xl font-bold text-black uppercase;
+        }
+        
+        .button-mint-xl:active > div {
+          @apply left-0 bottom-0;
+        }
+      
+      
+
+}
+
+
+/* 
+<div class="bg-mint-green-100 w-40 h-10 border-1 rounded-4xl z-20 relative ">
+    <div class="bg-mint-green-100 w-40 h-10 border-1 rounded-4xl absolute left-0.5 bottom-0.5 z-10 duration-100 ease-in  active:left-0 active:bottom-0">
+        <a href="#" class="flex justify-center items-center w-full h-full text-lg text-black uppercase">Test du bouton</a>
+    </div>
+</div> 
+*/
