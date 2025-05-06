@@ -30,6 +30,10 @@ module.exports = (app, pool, bcrypt) => {
     });
   });
 
+  app.get("/inscription", (req, res) => {
+    res.render("inscription"); // Assurez-vous que views/inscription.ejs existe
+  });
+
   app.post("/inscription", async (req, res) => {
     const { pseudo, email, motdepasse } = req.body;
     const motdepasseHashe = await bcrypt.hash(motdepasse, 10);
