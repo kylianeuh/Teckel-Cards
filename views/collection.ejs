@@ -110,7 +110,7 @@
                   style="background-color: <%= color1[carte.rarete] %>;">
                   <div class="card rounded-xl overflow-hidden"
                     style="background-color: <%= color2[carte.rarete] %>;">
-                      <img src="/<%= carte.image_url.replace('./', '').replace('public/', '') %>" alt="<%= carte.nom %>"
+                    <img src="<%= carte.image_url %>" alt="<%= carte.nom %>"
                         class="w-full h-60 object-cover">
                       <div class="details text-center p-2">
                         <div class="name font-bold text-lg <%= tier === 'T4' ? 'text-rainbow' : '' %>">

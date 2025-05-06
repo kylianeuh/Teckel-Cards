@@ -97,7 +97,7 @@
             <%= tier %>
           </div>
           <div class="card relative rounded-xl overflow-hidden" style="background-color: <%= color2[vente.rarete] %>;">
-            <img src="/<%= vente.image_url.replace('./', '').replace('public/', '') %>" alt="<%= vente.nom %>" class="w-full h-60 object-cover">
+            <img src="<%= vente.image_url %>" alt="<%= vente.nom %>" class="w-full h-60 object-cover">
             <div class="details text-center text-xs p-2">
               <div class="name font-bold text-lg <%= tier === 'T4' ? 'text-rainbow' : '' %>"><%= vente.nom %></div>
               <div class="desc text-gray-600 mt-1">

@@ -1,4 +1,4 @@
-module.exports = (app, connexion, DateTime) => {
+module.exports = (app, pool, DateTime) => {
   const verifierConnexion = (req, res, next) => {
     if (req.session.utilisateur) next();
     else res.redirect("/connexion");
@@ -7,17 +7,22 @@ module.exports = (app, connexion, DateTime) => {
   app.get('/', verifierConnexion, (req, res) => {
     const utilisateur_id = req.session.utilisateur.id;
 
-    connexion.query('SELECT jetons, prochaine_recolte FROM utilisateurs WHERE id = ?', [utilisateur_id], (err, results) => {
-      if (err || results.length === 0) return res.redirect('/connexion');
+    // ✅ PostgreSQL utilise $1 pour les paramètres
+    pool.query('SELECT jetons, prochaine_recolte FROM utilisateurs WHERE id = $1', [utilisateur_id], (err, result) => {
+      if (err || result.rows.length === 0) {
+        console.error("Erreur base de données :", err);
+        return res.redirect('/connexion');
+      }
 
-      req.session.utilisateur.jetons = results[0].jetons;
+      // ✅ avec pg, les résultats sont dans result.rows
+      req.session.utilisateur.jetons = result.rows[0].jetons;
 
       const maintenant = DateTime.now();
       let recolteDisponible = true;
       let prochaineRecolte = null;
 
-      if (results[0].prochaine_recolte) {
-        const recolte = DateTime.fromSQL(results[0].prochaine_recolte);
+      if (result.rows[0].prochaine_recolte) {
+        const recolte = DateTime.fromSQL(result.rows[0].prochaine_recolte);
         if (maintenant < recolte) {
           recolteDisponible = false;
           prochaineRecolte = recolte.toFormat('HH:mm');

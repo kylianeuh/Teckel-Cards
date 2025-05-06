@@ -1,12 +1,13 @@
-module.exports = (app, connexion) => {
+module.exports = (app, pool) => {
   app.post('/transformer-en-tier', (req, res) => {
     if (!req.session.utilisateur || !req.session.utilisateur.id) {
       return res.status(401).send("Non connecté");
     }
+
     const userId = req.session.utilisateur.id;
     const carteId = parseInt(req.body.carte_id);
     const tier = req.body.tier;
-    const quantite = parseInt(req.body.quantite) || 1; // ← récupère la quantité demandée
+    const quantite = parseInt(req.body.quantite) || 1;
 
     const tiers = {
       T1: { from: 'nb_exemplaires', to: 'nb_brillante' },
@@ -19,25 +20,25 @@ module.exports = (app, connexion) => {
     if (!config) return res.status(400).send('Tier invalide');
 
     // Vérifie la quantité disponible
-    connexion.query(`
+    pool.query(`
       SELECT ${config.from} FROM collections
-      WHERE utilisateur_id = ? AND carte_id = ?
-    `, [userId, carteId], (err, results) => {
-      if (err || results.length === 0) return res.status(500).send('Erreur SQL');
+      WHERE utilisateur_id = $1 AND carte_id = $2
+    `, [userId, carteId], (err, result) => {
+      if (err || result.rows.length === 0) return res.status(500).send('Erreur SQL');
 
-      const disponibles = results[0][config.from];
+      const disponibles = result.rows[0][config.from];
       const necessaires = quantite * 5;
 
       if (disponibles < necessaires) {
         return res.status(400).send(`Il vous faut ${necessaires} cartes pour faire ${quantite} transformation(s).`);
       }
 
-      // Mise à jour en une requête : -5*quantite, +quantite
-      connexion.query(`
+      // Mise à jour de la transformation
+      pool.query(`
         UPDATE collections
-        SET ${config.from} = ${config.from} - ?,
-            ${config.to} = ${config.to} + ?
-        WHERE utilisateur_id = ? AND carte_id = ?
+        SET ${config.from} = ${config.from} - $1,
+            ${config.to} = ${config.to} + $2
+        WHERE utilisateur_id = $3 AND carte_id = $4
       `, [necessaires, quantite, userId, carteId], (err2) => {
         if (err2) return res.status(500).send('Erreur mise à jour');
         res.sendStatus(200);

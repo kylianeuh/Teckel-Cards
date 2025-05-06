@@ -1,11 +1,10 @@
-module.exports = (app, connexion, rarityNames, rarityLetters, color1, color2) => {
+module.exports = (app, pool, rarityNames, rarityLetters, color1, color2) => {
 
-  // Route GET /marche : affichage du marché
+  // 📦 Route GET /marche : afficher les ventes
   app.get('/marche', (req, res) => {
-    if (!req.session.utilisateur) {
-      return res.redirect('/connexion');
-    }
-    connexion.query(`
+    if (!req.session.utilisateur) return res.redirect('/connexion');
+
+    pool.query(`
       SELECT 
         ventes.id AS vente_id,
         ventes.carte_id,
@@ -21,7 +20,7 @@ module.exports = (app, connexion, rarityNames, rarityLetters, color1, color2) =>
       FROM ventes
       JOIN cartes ON cartes.id = ventes.carte_id
       JOIN utilisateurs ON utilisateurs.id = ventes.vendeur_id
-    `, (err, results) => {
+    `, (err, result) => {
       if (err) {
         console.error('Erreur SQL marché:', err);
         return res.redirect('/');
@@ -29,7 +28,7 @@ module.exports = (app, connexion, rarityNames, rarityLetters, color1, color2) =>
 
       res.render('marche', {
         utilisateur: req.session.utilisateur,
-        ventes: results,
+        ventes: result.rows,
         success: req.query.success,
         rarityNames,
         rarityLetters,
@@ -39,15 +38,15 @@ module.exports = (app, connexion, rarityNames, rarityLetters, color1, color2) =>
     });
   });
 
-  // 🆕 Fonction utilitaire pour tirer une carte d’un certain tier
-  function tirerCarteParTier(connexion, tier, callback) {
-    connexion.query('SELECT id FROM cartes WHERE tier = ? ORDER BY RAND() LIMIT 1', [tier], (err, results) => {
-      if (err || results.length === 0) return callback(err || new Error("Aucune carte trouvée"), null);
-      callback(null, results[0].id);
+  // 🎲 Fonction tirage PostgreSQL
+  function tirerCarteParTier(pool, tier, callback) {
+    pool.query('SELECT id FROM cartes WHERE rarete = $1 ORDER BY RANDOM() LIMIT 1', [tier], (err, result) => {
+      if (err || result.rows.length === 0) return callback(err || new Error("Aucune carte trouvée"), null);
+      callback(null, result.rows[0].id);
     });
   }
 
-  // ✅ Nouvelle route POST /marche/acheter
+  // 🛒 Route POST /marche/acheter
   app.post('/marche/acheter', (req, res) => {
     const type = req.body.type;
     const utilisateur = req.session.utilisateur;
@@ -64,26 +63,26 @@ module.exports = (app, connexion, rarityNames, rarityLetters, color1, color2) =>
     const produit = boutique[type];
     if (!produit) return res.redirect('/marche?success=invalid');
 
-    connexion.query('SELECT jetons FROM utilisateurs WHERE id = ?', [idUtilisateur], (err, results) => {
+    pool.query('SELECT jetons FROM utilisateurs WHERE id = $1', [idUtilisateur], (err, result) => {
       if (err) return res.redirect('/marche?success=error');
-      if (results[0].jetons < produit.prix) return res.redirect('/marche?success=notenough');
+      if (result.rows[0].jetons < produit.prix) return res.redirect('/marche?success=notenough');
 
       // Déduire les jetons
-      connexion.query('UPDATE utilisateurs SET jetons = jetons - ? WHERE id = ?', [produit.prix, idUtilisateur]);
+      pool.query('UPDATE utilisateurs SET jetons = jetons - $1 WHERE id = $2', [produit.prix, idUtilisateur]);
 
-      // 🎁 Tirage des cartes
       let cartesTirees = [];
       let tiragesRestants = produit.quantite;
       const isGodPack = produit.quantite > 1 && Math.random() < 0.05;
 
       function tirerProchaineCarte() {
         if (tiragesRestants <= 0) {
-          const queries = cartesTirees.map(carteId => {
+          const insertions = cartesTirees.map(carteId => {
             return new Promise((resolve, reject) => {
-              connexion.query(`
-                INSERT INTO cartes_utilisateur (utilisateur_id, carte_id, quantite)
-                VALUES (?, ?, 1)
-                ON DUPLICATE KEY UPDATE quantite = quantite + 1
+              pool.query(`
+                INSERT INTO collections (utilisateur_id, carte_id, nb_exemplaires)
+                VALUES ($1, $2, 1)
+                ON CONFLICT (utilisateur_id, carte_id)
+                DO UPDATE SET nb_exemplaires = collections.nb_exemplaires + 1
               `, [idUtilisateur, carteId], (err) => {
                 if (err) reject(err);
                 else resolve();
@@ -91,15 +90,16 @@ module.exports = (app, connexion, rarityNames, rarityLetters, color1, color2) =>
             });
           });
 
-          Promise.all(queries)
+          Promise.all(insertions)
             .then(() => res.redirect('/marche?success=ok'))
             .catch(() => res.redirect('/marche?success=error'));
+
           return;
         }
 
-        let tier = isGodPack ? (tiragesRestants === 1 ? 4 : 3) : produit.tier;
+        const tier = isGodPack ? (tiragesRestants === 1 ? 4 : 3) : produit.tier;
 
-        tirerCarteParTier(connexion, tier, (err, carteId) => {
+        tirerCarteParTier(pool, tier, (err, carteId) => {
           if (err) return res.redirect('/marche?success=error');
           cartesTirees.push(carteId);
           tiragesRestants--;
@@ -110,5 +110,4 @@ module.exports = (app, connexion, rarityNames, rarityLetters, color1, color2) =>
       tirerProchaineCarte();
     });
   });
-
 };

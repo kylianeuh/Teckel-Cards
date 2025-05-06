@@ -1,4 +1,4 @@
-module.exports = (app, connexion) => {
+module.exports = (app, pool) => {
   app.post('/marche/acheter', (req, res) => {
     const type = req.body.type;
     const utilisateur = req.session.utilisateur;
@@ -16,25 +16,28 @@ module.exports = (app, connexion) => {
     const produit = boutique[type];
     if (!produit) return res.redirect('/marche?success=invalid');
 
-    connexion.query('SELECT jetons FROM utilisateurs WHERE id = ?', [idUtilisateur], (err, results) => {
-      if (err) return res.redirect('/marche?success=error');
-      if (results[0].jetons < produit.prix) return res.redirect('/marche?success=notenough');
+    // ✅ Vérification des jetons
+    pool.query('SELECT jetons FROM utilisateurs WHERE id = $1', [idUtilisateur], (err, result) => {
+      if (err || result.rows.length === 0) return res.redirect('/marche?success=error');
+      if (result.rows[0].jetons < produit.prix) return res.redirect('/marche?success=notenough');
 
-      connexion.query('UPDATE utilisateurs SET jetons = jetons - ? WHERE id = ?', [produit.prix, idUtilisateur]);
+      // ✅ Déduction des jetons
+      pool.query('UPDATE utilisateurs SET jetons = jetons - $1 WHERE id = $2', [produit.prix, idUtilisateur]);
 
       const isGodPack = produit.quantite > 1 && Math.random() < 0.05;
       let cartesTirees = [];
       let tiragesRestants = produit.quantite;
 
-      // ✅ LA FONCTION QUI MANQUAIT
+      // ✅ Tirage d'une carte aléatoire
       function tirerCarteParTier(tier, callback) {
-        connexion.query('SELECT id FROM cartes ORDER BY RAND() LIMIT 1', (err, results) => {
-          if (err || results.length === 0) return callback(err || new Error("Aucune carte trouvée"), null);
-          const carteId = results[0].id;
+        pool.query('SELECT id FROM cartes ORDER BY RANDOM() LIMIT 1', (err, result) => {
+          if (err || result.rows.length === 0) return callback(err || new Error("Aucune carte trouvée"), null);
+          const carteId = result.rows[0].id;
           callback(null, { carteId, tier });
         });
       }
 
+      // ✅ Enregistrement des cartes tirées
       function tirerProchaineCarte() {
         if (tiragesRestants <= 0) {
           const insertions = cartesTirees.map(({ carteId, tier }) => {
@@ -42,10 +45,11 @@ module.exports = (app, connexion) => {
             const colonne = colonnes[tier] || 'nb_exemplaires';
 
             return new Promise((resolve, reject) => {
-              connexion.query(`
+              pool.query(`
                 INSERT INTO cartes_utilisateur (utilisateur_id, carte_id, ${colonne})
-                VALUES (?, ?, 1)
-                ON DUPLICATE KEY UPDATE ${colonne} = ${colonne} + 1
+                VALUES ($1, $2, 1)
+                ON CONFLICT (utilisateur_id, carte_id)
+                DO UPDATE SET ${colonne} = cartes_utilisateur.${colonne} + 1
               `, [idUtilisateur, carteId], (err) => {
                 if (err) reject(err);
                 else resolve();

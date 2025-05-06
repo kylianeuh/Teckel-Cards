@@ -140,7 +140,7 @@
         %>
         <div class="border border-0 <%= borderClass %>" style="background-color: <%= color1[carte.rarete_id] %>;">
           <div class="card <%= cardClass %>" style="background-color: <%= color2[carte.rarete_id] %>;">
-            <img src="/img_Cartes/Teckel_<%= carte.numero %>.webp" alt="<%= carte.nom %>">
+            <img src="<%= carte.image_url %>" alt="<%= carte.nom %>">
             <div class="details">
               <div class="name"><%= carte.nom %></div>
               <div class="desc"><%= carte.description %></div>

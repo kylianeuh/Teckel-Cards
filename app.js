@@ -1,18 +1,25 @@
 // =========================
-// 📁 app.js – Serveur principal Teckel B02
+// 📁 app.js – Serveur principal Teckel B02 clesteckelouquoila
 // =========================
 
 // === Importations ===
 const express = require("express");
-const mysql = require("mysql2");
+// const mysql = require("mysql2");
+const pool = require('./db'); // Connexion PostgreSQL
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 const { calculerCartes } = require("./script/probabilite");
 const { DateTime } = require("luxon");
 
+// 🔍 Test de connexion
+pool.query('SELECT NOW()', (err, res) => {
+  if (err) throw err;
+  console.log('🟢 Connexion PostgreSQL OK !', res.rows);
+});
+
+
 // === App et port ===
 const app = express();
-const port = 3000;
 
 // === Configuration générale ===
 app.use(express.urlencoded({ extended: true }));
@@ -22,19 +29,20 @@ app.set("views", "./views");
 
 // === Sessions ===
 app.use(session({
-  secret: 'un_secret_de_malade',
+  secret: 'clesteckelouquoila',
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 1000 * 60 * 60 * 24 * 90 } // 90 jours
 }));
 
 // === Connexion à la base de données ===
-const connexion = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "testcard"
-});
+// const connexion = mysql.createConnection({
+//   host: "localhost",
+//   user: "root",
+//   password: "",
+//   database: "testcard"
+// });
+require("./routes/auth")(app, pool, bcrypt);
 
 // === Données globales ===
 const rarityNames = { 1: "Cuivre", 2: "Titane", 3: "Platine", 4: "Améthyste", 5: "Rubis", 6: "Or" };
@@ -53,25 +61,24 @@ function verifierConnexion(req, res, next) {
 // === Routes ===
 
 // 🧑‍💼 Connexion & Inscription
-require("./routes/auth")(app, connexion, bcrypt);
+require("./routes/auth")(app, pool, bcrypt);
 
 // 🏠 Accueil & Jetons quotidiens
-require("./routes/accueil")(app, connexion, DateTime);
-require("./routes/gagnerJetons")(app, connexion, DateTime);
+require("./routes/accueil")(app, pool, DateTime);
+require("./routes/gagnerJetons")(app, pool, DateTime);
 
 // 📦 Boosters (tirage, affichage)
-require("./routes/booster")(app, connexion, calculerCartes, prixBoosters, color1, color2, color3, rarityLetters);
+require("./routes/booster")(app, pool, calculerCartes, prixBoosters, color1, color2, color3, rarityLetters);
 
 // 🗂️ Collection & Transformations
-require("./routes/collection")(app, connexion, rarityLetters, color1, color2);
-require("./routes/transformations")(app, connexion);
+require("./routes/collection")(app, pool, rarityLetters, color1, color2);
+require("./routes/transformations")(app, pool);
 
 // 🛒 Marché & Vente
-require("./routes/marche")(app, connexion, rarityNames, rarityLetters, color1, color2);
-require("./routes/acheter")(app, connexion,);
-require("./routes/ventes")(app, connexion);
+require("./routes/marche")(app, pool, rarityNames, rarityLetters, color1, color2);
+require("./routes/acheter")(app, pool);
+require("./routes/ventes")(app, pool);
 
-// === Lancer le serveur ===
-app.listen(port, () => {
-  console.log(`🚀 Serveur lancé sur http://localhost:${port}`);
+app.listen(3000, () => {
+  console.log("Serveur lancé sur http://localhost:3000");
 });
