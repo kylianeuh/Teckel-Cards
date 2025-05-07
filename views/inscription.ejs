@@ -1,17 +1,80 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="font-grotesque bg-principal-800">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Inscription</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription - TeckelCard</title>
+  <link href="/css/output.css" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap"
+    rel="stylesheet" />
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
-<body>
-  <h1>Inscription</h1>
-  <form action="/inscription" method="POST">
-    <input type="text" name="pseudo" placeholder="Pseudo" required><br>
-    <input type="email" name="email" placeholder="Email" required><br>
-    <input type="password" name="motdepasse" placeholder="Mot de passe" required><br>
-    <button type="submit">S'inscrire</button>
-  </form>
-  <p>Déjà inscrit ? <a href="/connexion">Connecte-toi ici</a></p>
+
+<body class="min-h-screen flex items-center justify-center px-4 py-6">
+  <div class="flex flex-col md:flex-row items-center justify-center gap-10 w-full max-w-7xl">
+
+    <!-- Partie gauche : Titre + lien -->
+    <div class="flex flex-col items-center md:items-start text-center md:text-left">
+      <h2 class="text-[60px] sm:text-[70px] md:text-[100px] lg:text-[160px] font-bold mb-6 text-gray-800 uppercase leading-none">
+        register page
+      </h2>
+      <div class="button-mint">
+        <div><a href="/connexion">Déjà un compte ?</a></div>
+      </div>
+    </div>
+
+    <!-- Partie droite : Formulaire -->
+    <form method="POST" action="/inscription" id="register-form"
+      class="bg-white bg-opacity-80 rounded-xl p-8 w-full max-w-xl shadow-md">
+
+      <!-- Pseudo -->
+      <div class="mb-6">
+        <label for="pseudo" class="block text-text-dark text-xl font-bold mb-2">Pseudo</label>
+        <input type="text" id="pseudo" name="pseudo" required placeholder="Votre pseudo"
+          class="w-full px-5 py-4 text-lg bg-mint-green-100 border-2 rounded-lg shadow focus:outline-none focus:ring" />
+      </div>
+
+      <!-- Email -->
+      <div class="mb-6">
+        <label for="email" class="block text-text-dark text-xl font-bold mb-2">E-mail</label>
+        <input type="email" id="email" name="email" required placeholder="Votre email"
+          class="w-full px-5 py-4 text-lg bg-mint-green-100 border-2 rounded-lg shadow focus:outline-none focus:ring" />
+      </div>
+
+      <!-- Mot de passe -->
+      <div class="mb-6">
+        <label for="password" class="block text-text-dark text-xl font-bold mb-2">Mot de passe</label>
+        <input type="password" id="password" name="motdepasse" required minlength="6"
+          placeholder="Votre mot de passe"
+          class="w-full px-5 py-4 text-lg bg-mint-green-100 border-2 rounded-lg shadow focus:outline-none focus:ring" />
+      </div>
+
+      <!-- Confirmation -->
+      <div class="mb-6">
+        <label for="confirm" class="block text-text-dark text-xl font-bold mb-2">Confirmer le mot de passe</label>
+        <input type="password" id="confirm" name="confirmation" required minlength="6"
+          placeholder="Confirmez votre mot de passe"
+          class="w-full px-5 py-4 text-lg bg-mint-green-100 border-2 rounded-lg shadow focus:outline-none focus:ring" />
+      </div>
+
+      <!-- Bouton -->
+      <div class="button-mint-xl w-full">
+        <button type="submit"
+          class="w-full h-full text-2xl font-bold text-black uppercase bg-mint-green-300 py-3 rounded hover:bg-mint-green-200 transition">
+          Créer mon compte
+        </button>
+      </div>
+
+      <!-- Lien mobile -->
+      <div class="text-center mt-6 md:hidden">
+        <a href="/connexion" class="text-dark underline text-lg">Déjà inscrit ?</a>
+      </div>
+    </form>
+  </div>
 </body>
+
 </html>
