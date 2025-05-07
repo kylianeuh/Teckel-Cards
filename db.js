@@ -1,25 +1,32 @@
+// 📁 db.js – Connexion PostgreSQL
 require('dotenv').config();
 const { Pool } = require('pg');
 
-let pool;
-
-if (process.env.DATABASE_URL) {
-  // ✅ Render : connexion via DATABASE_URL
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  });
-} else {
-  // ✅ Local : connexion avec variables séparées
-  pool = new Pool({
-    host: process.env.PGHOST,
-    port: process.env.PGPORT,
-    user: process.env.PGUSER,
-    password: process.env.PGPASSWORD,
-    database: process.env.PGDATABASE
-  });
-}
+const pool = new Pool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT || 5432,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  // ssl: {
+  //   rejectUnauthorized: false // ⚠️ important pour Render
+  // }
+});
 
 module.exports = pool;
+
+// require('dotenv').config();
+// const { Pool } = require('pg');
+
+// const pool = new Pool({
+//   user: process.env.DB_USER,
+//   host: process.env.DB_HOST,
+//   database: process.env.DB_NAME,
+//   password: process.env.DB_PASSWORD,
+//   port: process.env.DB_PORT,
+//   ssl: {
+//     rejectUnauthorized: false
+//   }
+// });
+
+// module.exports = pool;
