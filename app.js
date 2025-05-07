@@ -11,11 +11,19 @@ const bcrypt = require("bcryptjs");
 const { calculerCartes } = require("./script/probabilite");
 const { DateTime } = require("luxon");
 
-// 🔍 Test de connexion
-pool.query('SELECT NOW()', (err, res) => {
-  if (err) throw err;
-  console.log('🟢 Connexion PostgreSQL OK !', res.rows);
-});
+console.log("🚀 Test de connexion à la base PostgreSQL...");
+
+pool.query('SELECT * FROM utilisateurs WHERE id = $1', [2])
+  .then(result => {
+    if (result.rows.length === 0) {
+      console.log('❌ Aucun utilisateur avec l\'ID 2 trouvé.');
+    } else {
+      console.log('👤 Utilisateur ID 2 :', result.rows[0]);
+    }
+  })
+  .catch(err => {
+    console.error('❌ Erreur PostgreSQL :', err.message);
+  });
 
 
 // === App et port ===

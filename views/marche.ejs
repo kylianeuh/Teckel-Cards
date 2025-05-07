@@ -19,18 +19,45 @@
 </head>
 <body class="bg-gray-100 min-h-screen mb-10">
   <!-- HEADER -->
-  <header class="flex justify-between items-center p-6 bg-white shadow">
-    <div class="text-4xl font-bold text-principal-800">Marché</div>
-    <div class="flex items-center gap-4">
-      <div class="flex items-center bg-white rounded-lg p-2 shadow">
-        <img src="/img/Teckel-Coins.png" class="w-6 mr-2" alt="Jetons" />
-        <span class="text-lg font-bold">
-          <%= utilisateur.jetons %>
-        </span>
+  <header
+    class="relative flex flex-row items-center justify-between gap-4 bg-gray-50 p-4 px-6 sm:px-10 rounded-b border-b border-gray-500">
+
+    <div class="flex flex-col sm:flex-row items-center gap-2">
+      <!-- Bloc jetons -->
+      <div class="relative">
+        <div class="bg-mint-green-100 w-40 h-16 border-1 rounded relative">
+          <div
+            class="bg-mint-green-100 w-40 h-16 border-1 rounded absolute top-0 left-0 -translate-x-2 translate-y-1 flex items-center justify-center px-2 space-x-2">
+            <span class="text-3xl">
+              <%= utilisateur.jetons %>
+            </span>
+            <img src="img/Teckel-Coins.png" alt="" class="h-12">
+          </div>
+        </div>
+
       </div>
-      <a href="/" class="text-principal-800 font-bold text-2xl hover:underline">Accueil</a>
+    </div>
+
+
+
+    <!-- Texte centré -->
+    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl hidden md:block uppercase ">
+      Votre collection
+    </div>
+
+    <!-- Bouton compte -->
+    <div class="border-1 rounded-full w-12 h-12 bg-principal-800">
+      <div
+        class="border-1 rounded-full w-12 h-12 translate-x-0.5 -translate-y-0.5 active:-translate-x-0 active:translate-y-0 ease-in-out duration-100 transition bg-principal-800 active:bg-principal-200 flex items-center justify-center">
+        <img src="img/Account.svg" alt="Icône de compte" class="w-10 h-10">
+      </div>
     </div>
   </header>
+  <main class="m-2">
+    <div class="button-principal">
+      <div><a href="/" class="text-sm">Accueil</a></div>
+    </div>
+
 
   <!-- BOUTIQUE TIER -->
 <section class="bg-white mx-auto max-w-4xl rounded-xl shadow p-6 mt-8">
@@ -126,6 +153,7 @@
       </div>
     <% }) %>
   </div>
+</main>
 
   <script>
     // Glow Hover dynamique
