@@ -1,533 +1,236 @@
-<!-- views/collection.ejs -->
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="font-grotesque bg-mint-green-100">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Votre Collection</title>
-  <link rel="stylesheet" href="/css/output.css" />
-  <!-- Ton fichier Tailwind compilé -->
-  <link rel="stylesheet" href="/card-style.css" />
-
-  <style>
-
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/output.css" />
+    <link rel="stylesheet" href="/style-cards.css" />
 </head>
 
-<body class="bg-principal-800 font-grotesque min-h-screen flex flex-col">
-  <header
-    class="relative flex flex-row items-center justify-between gap-4 bg-gray-50 p-4 px-6 sm:px-10 rounded-b border-b border-gray-500">
-
-    <div class="flex flex-col sm:flex-row items-center gap-2">
-      <!-- Bloc jetons -->
-      <div class="relative">
-        <div class="bg-mint-green-100 w-40 h-16 border-1 rounded relative">
-          <div
-            class="bg-mint-green-100 w-40 h-16 border-1 rounded absolute top-0 left-0 -translate-x-2 translate-y-1 flex items-center justify-center px-2 space-x-2">
-            <span class="text-3xl">
-              <%= utilisateur.jetons %>
-            </span>
-            <img src="img/Teckel-Coins.png" alt="" class="h-12">
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-
-    <!-- Texte centré -->
-    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl hidden md:block uppercase ">
-      Votre collection
-    </div>
-
-    <!-- Bouton compte -->
-    <div class="border-1 rounded-full w-12 h-12 bg-principal-800">
-      <div
-        class="border-1 rounded-full w-12 h-12 translate-x-0.5 -translate-y-0.5 active:-translate-x-0 active:translate-y-0 ease-in-out duration-100 transition bg-principal-800 active:bg-principal-200 flex items-center justify-center">
-        <img src="img/Account.svg" alt="Icône de compte" class="w-10 h-10">
-      </div>
-    </div>
-  </header>
-
-  <main class="flex-1 p-6">
-    <div class="flex flex-col md:flex-row justify-between items-start mb-8">
-      <div>
-        <div class="button-mint">
-          <div><a href="/" class="text-sm">Accueil</a></div>
-        </div>
-        <h3 class="text-xl font-bold w-100 mt-4">
-          Voici votre collection <%= utilisateur.pseudo %>, pour la gerer,
-            cliquez sur une cartes, vous pourez ensuite améliorer la carte, les
-            échanger ou les vendre.
-        </h3>
-      </div>
-      <div class="bg-white rounded-lg shadow p-4 mt-4 md:mt-0">
-        <h2 class="text-xl font-semibold mb-2">Statistiques</h2>
-        <p>
-          Cartes uniques :
-          <span class="font-bold">
-            <%= totalUniques %>/100
-          </span>
-        </p>
-        <p>Basiques : <span class="font-bold">
-            <%= totalBasic %>
-          </span></p>
-        <p>Brillantes : <span class="font-bold">
-            <%= totalShiny %>
-          </span></p>
-      </div>
-    </div>
-
-    <% if (cartes.length===0) { %>
-      <p class="text-center text-gray-500">Vous n'avez encore aucune carte.</p>
-      <% } else { %>
-
-        <div class="flex flex-wrap justify-center gap-6">
-          <% cartes.forEach(carte=> { %>
-            <%
-            let tier = 'T0';
-            if (carte.nb_gold > 0) {
-              tier = 'T4';
-            } else if (carte.nb_noir_blanc > 0) {
-              tier = 'T3';
-            } else if (carte.nb_alternative > 0) {
-              tier = 'T2';
-            } else if (carte.nb_brillante > 0) {
-              tier = 'T1';
-            }
-          
-            let showCard = (
-              carte.nb_exemplaires + 
-              carte.nb_brillante + 
-              carte.nb_alternative + 
-              carte.nb_noir_blanc + 
-              carte.nb_gold
-            ) > 0;
-          %>
-          <% if (showCard) { %>
-          
-              <!-- Affiche la carte seulement si on possède au moins 1 exemplaire -->
-              <div class="flex flex-col items-center cursor-pointer"
-                onclick="ouvrirGestionCarte('<%= carte.id %>', '<%= carte.nom %>', <%= carte.nb_exemplaires %>, <%= carte.nb_brillante %>, <%= carte.nb_alternative %>, <%= carte.nb_noir_blanc %>, <%= carte.nb_gold %>, <%= carte.rarete %>)">
-                <div class="flex flex-col items-center">
-                  <%
-                  let borderClass = '';
-                  let cardClass = '';
-                  if (tier === 'T1') {
-                    borderClass = 'brillante border-blue-300';
-                    cardClass = 'shine glow'; // combo brillant + glow visible
-                  } else if (tier === 'T2') {
-                    borderClass = 'rainbow-border';
-                    cardClass = 'rainbow-border'; 
-                  } else if (tier === 'T3') {
-                    borderClass = 'nb';
-                    cardClass = 'nb';
-                  } else if (tier === 'T4') {
-                    borderClass = 'nb-rainbow';
-                    cardClass = 'nb-rainbow';
-                  }
-                %>
-                
-                <div class="border border-0 relative rounded-2xl overflow-hidden w-[215px] h-[315px] <%= cardClass %> <%= tier === 'T4' ? 'shiny-effect' : '' %>"
-                  style="background-color: <%= color1[carte.rarete] %>;">
-                  <div class="card rounded-xl overflow-hidden"
-                    style="background-color: <%= color2[carte.rarete] %>;">
-                    <img src="<%= carte.image_url %>" alt="<%= carte.nom %>"
-                        class="w-full h-60 object-cover">
-                      <div class="details text-center p-2">
-                        <div class="name font-bold text-lg <%= tier === 'T4' ? 'text-rainbow' : '' %>">
-                          <%= carte.nom %>
-                        </div>
-                        <div class="desc text-xs text-gray-600 mt-1">
-                          <%= carte.description %>
-                        </div>
-<div class="icon mt-2 p-1 rounded-full flex items-center justify-center"
-  style="background-color: <%= color1[carte.rarete] %>;">
-  <span class="<%= tier === 'T4' ? 'text-rainbow' : 'text-white' %>">
-    <%= rarityLetters[carte.rarete] %>
-  </span>
-</div>
-                        <%
-                        let reste = carte.id;
-                        let serie = 0;
-                        let maxParSerie = 0;
-                        let numeroDansSerie = 0;
-
-                        for (let i = 0; i < taillesSeries.length; i++) {
-                          const taille = taillesSeries[i];
-                          if (reste <= taille) {
-                            serie = i;
-                            maxParSerie = taille;
-                            numeroDansSerie = reste;
-                            break;
-                          } else {
-                            reste -= taille;
-                          }
-                        }
-
-                        const numeroFormate = String(numeroDansSerie).padStart(2, '0');
-                      %>
-                      <div class="id text-xs text-gray-500 mt-1">
-                        <%= `${serie}-${numeroFormate}/${maxParSerie}` %>
-                      </div>
-
-                      </div>
-                      <div class="badge-tier <%= 'badge-' + tier %>">
-                        <%= tier %>
-                      </div>
-                    </div>
-
-                  </div>
-
-                </div>
-
+<body>
+    <%- include('partials/header') %>
+        <main class="min-h-screen bg-gray-50 px-2 py-3 ">
+            <div class="button-principal">
+                <div><a href="/" class="text-sm">Accueil</a></div>
               </div>
-              <% } %>
-                <% }) %>
-        </div>
+            <h1 class="text-3xl font-bold text-center mb-2">🎴 Ma collection</h1>
+            <div class="border rounded shadow-2xl border-gray-300 p-2 m-2 mb-8 w-30">
+                <div class="flex flex-col">
+                    <h2 class="text-lg font-bold text-gray-800">Mes cartes</h2>
+                    <ul class="text-sm mt-2 space-y-1">
+                        <li class="flex justify-between items-center"><div class="w-7 bg-gray-500 text-white rounded text-[10px] font-bold px-2 py-0.5 shadow mr-1">T0</div> <%= statsTier.T0 %> / 100</li>
+                        <li class="flex justify-between items-center"><div class="w-7 bg-gradient-to-br from-blue-400 to-violet-500 text-white rounded text-[10px] font-bold px-2 py-0.5 shadow mr-1">T1</div> <%= statsTier.T1 %> / 100</li>
+                        <li class="flex justify-between items-center"><div class="w-7 bg-gradient-to-br from-violet-400 to-red-500 text-white rounded text-[10px] font-bold px-2 py-0.5 shadow mr-1">T2</div> <%= statsTier.T2 %> / 100</li>
+                        <li class="flex justify-between items-center"><div class="w-7 bg-gradient-to-br from-gray-300 to-gray-600 text-white rounded text-[10px] font-bold px-2 py-0.5 shadow mr-1">T3</div> <%= statsTier.T3 %> / 100</li>
+                        <li class="flex justify-between items-center"><div class="w-7 bg-gradient-to-br from-yellow-200 to-yellow-400 text-black rounded text-[10px] font-bold px-2 py-0.5 shadow mr-1">T4</div> <%= statsTier.T4 %> / 100</li>
+                      </ul>
+                </div>
+            </div>
+            <% const gradientMap={ 
+                1: "from-[#e8d8c3] to-[#dab892] border-yellow-700" ,
+                2: "from-[#e6e6f0] to-[#d4d4e7] border-[#a0b3c9]" , 
+                3: "from-[#edecec] to-[#e1e1e1] border-gray-400" ,
+                4: "from-[#d1b3e0] to-[#b48bc9] border-purple-700" , 
+                5: "from-[#f8c2d4] to-[#e68ca8] border-rose-700" ,
+                6: "from-[#fff9d6] to-[#ffe680] border-yellow-500" }; %>
+            <div class="flex flex-wrap justify-center gap-3 md:gap-8">
+            <% cartes.forEach(carte=> { %>
+            <%- include('partials/carte', { carte, gradientMap, color1, rarityLetters }) %>
+            <% }) %>
+            </div>
+            <%- include('partials/modal-carte') %>
+    </main>
+    <%- include('partials/footer') %>
 
-        <% } %>
-<!-- Modal -->
-<div id="modal-carte" class="fixed inset-0 hidden bg-black/50 z-50 flex justify-center items-center p-4">
-  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl p-6 relative flex flex-col md:flex-row gap-6">
-    
-    <!-- BOUTON FERMER -->
-    <button onclick="fermerModal()" class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-xl font-bold">&times;</button>
+    <script>
+        function ouvrirGestionCarte(id, nom, nbT0, nbT1, nbT2, nbT3, nbT4, imageUrl) {
+          document.getElementById('carte-id-transform').value = id;
+          document.getElementById('modal-carte').classList.remove('hidden');
+          document.getElementById('modal-nom').innerText = nom;
+          document.querySelector('#preview-image img').src = imageUrl;
+        
+          document.getElementById('count-T0').innerText = nbT0;
+          document.getElementById('count-T1').innerText = nbT1;
+          document.getElementById('count-T2').innerText = nbT2;
+          document.getElementById('count-T3').innerText = nbT3;
+          document.getElementById('count-T4').innerText = nbT4;
+        
+          // Enregistrer les données pour calculs
+          window._carteEnCours = { id, nbT0, nbT1, nbT2, nbT3, nbT4 };
+        
+          // Réinitialiser la sélection
+          document.getElementById('tier-cible').value = 'T1';
+          document.getElementById('quantite-evolution').value = 1;
+        
+          updateEvolutionPossible();
+        }
 
-    <!-- COLONNE GAUCHE : gestion classique -->
-    <div class="w-full md:w-1/2 flex flex-col">
-      <h2 id="modal-nom" class="text-3xl font-extrabold text-center mb-6 text-principal-800"></h2>
+        function updateEvolutionPossible() {
+        const tierCible = document.getElementById('tier-cible').value;
+        const data = window._carteEnCours;
 
-      <!-- Compteurs -->
-      <div id="compteur-tiers" class="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-6 text-sm text-center">
-        <div class="bg-gray-100 p-2 rounded shadow"><strong>T0</strong><br><span id="count-T0">0</span></div>
-        <div class="bg-blue-200 p-2 rounded shadow"><strong>T1</strong><br><span id="count-T1">0</span></div>
-        <div class="bg-purple-200 p-2 rounded shadow"><strong>T2</strong><br><span id="count-T2">0</span></div>
-        <div class="bg-gray-400 p-2 rounded shadow text-white"><strong>T3</strong><br><span id="count-T3">0</span></div>
-        <div class="bg-yellow-300 p-2 rounded shadow"><strong>T4</strong><br><span id="count-T4">0</span></div>
-      </div>
+        const requirements = {
+            T1: data.nbT0,
+            T2: data.nbT1,
+            T3: data.nbT2,
+            T4: data.nbT3
+        };
 
-      <!-- Type de carte -->
-      <label for="type-carte" class="block text-sm font-semibold mb-1">Type :</label>
-      <select id="type-carte" class="w-full mb-4 border-1 rounded-xl p-2">
-        <option value="nb_exemplaires">Basique</option>
-        <option value="nb_brillante">Brillante</option>
-        <option value="nb_alternative">Arc-en-ciel</option>
-        <option value="nb_noir_blanc">Noir & Blanc</option>
-        <option value="nb_gold">Gold</option>
-      </select>
+        const disponibles = requirements[tierCible];
+        const max = Math.floor(disponibles / 5);
 
-      <!-- Quantité -->
-      <label for="quantite" class="block text-sm font-semibold mb-1">Quantité :</label>
-      <div class="flex items-center gap-2 mb-2">
-        <button onclick="decreaseQuantite()" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">-</button>
-        <input type="number" id="quantite" value="1" min="1" class="w-16 text-center border-1 rounded" />
-        <button onclick="increaseQuantite()" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">+</button>
-      </div>
-      <small id="max-quantite" class="block text-gray-500 mb-4"></small>
+        document.getElementById('evolution-possible').innerText = `Max : ${max} transformation(s) possibles`;
+        }
 
-      <!-- Prix -->
-      <div id="prix-total" class="text-center text-lg font-bold text-green-700 my-2"></div>
+        function fermerModal() {
+        document.getElementById('modal-carte').classList.add('hidden');
+        document.body.style.overflow = '';
+        }
 
-      <!-- Boutons Vente -->
-      <input type="hidden" id="vente-direct-id" name="carte_id" />
-      <button onclick="vendreDirect()"
-        class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded mb-2">
-        💸 Vendre Directement
-      </button>
-      <button onclick="mettreEnVente()"
-        class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded">
-        🛒 Mettre en vente au marché
-      </button>
-    </div>
+        // Clique en dehors du contenu = fermer
+        function fermerSiClicExterieur(event) {
+        const modal = document.getElementById('modal-carte');
+        const contenu = modal.querySelector('.max-w-5xl');
 
-    <!-- COLONNE DROITE : amélioration -->
-    <div class="w-full md:w-1/2 flex flex-col">
-      <h3 class="text-xl font-bold text-center mb-4">✨ Améliorer les cartes</h3>
+        if (!contenu.contains(event.target)) {
+            fermerModal();
+        }
+        }
 
-      <!-- Sélection du Tier cible -->
-      <label for="tier-cible" class="block text-sm font-semibold mb-1">Choisissez le Tier cible :</label>
-      <select id="tier-cible" class="w-full border-1 rounded-xl p-2 mb-4">
-        <option value="T1">Vers T1 (Brillante)</option>
-        <option value="T2">Vers T2 (Alternative)</option>
-        <option value="T3">Vers T3 (N&B)</option>
-        <option value="T4">Vers T4 (Gold)</option>
-      </select>
+        document.addEventListener('keydown', function(event) {
+  const modal = document.getElementById('modal-carte');
+  if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
+    fermerModal();
+  }
+});
 
-      <!-- Quantité à améliorer -->
-      <label for="quantite-evolution" class="block text-sm font-semibold mb-1">Combien de cartes voulez-vous améliorer ?</label>
-      <input type="number" id="quantite-evolution" value="1" min="1" class="w-32 border-1  rounded p-2 mb-2" />
-
-      <small id="evolution-possible" class="text-gray-500 mb-4">Max : ? transformations possibles</small>
-
-      <button onclick="lancerTransformation()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded">
-        ⚡ Transformer
-      </button>
-    </div>
-  </div>
-</div>
-
-  </main>
-  <script>
-
-
-    let maxDisponible = 1;
-    let rareteActuelle = 1; // Ajouté pour calculer prix selon rareté
-
-
-
-
-    const prixVente = {
-      1: { T0: 1, T1: 5, T2: 30, T3: 225, T4: 2250 },
-      2: { T0: 2, T1: 10, T2: 60, T3: 450, T4: 4500 },
-      3: { T0: 5, T1: 25, T2: 150, T3: 1125, T4: 11250 },
-      4: { T0: 10, T1: 50, T2: 300, T3: 2250, T4: 22500 },
-      5: { T0: 20, T1: 100, T2: 600, T3: 4500, T4: 45000 },
-      6: { T0: 50, T1: 250, T2: 1500, T3: 11250, T4: 112500 }
-    };
-
-
-    function ouvrirGestionCarte(id, nom, nbBasique, nbBrillante, nbAlt, nbNB, nbGold, rarete) {
-      rareteActuelle = rarete;
-      document.getElementById('modal-carte').classList.remove('hidden');
-      document.getElementById('modal-nom').innerText = nom;
-      document.getElementById('vente-direct-id').value = id;
-      document.getElementById('quantite').value = 1;
-      document.getElementById('type-carte').value = 'nb_exemplaires';
-      document.getElementById('quantite-evolution').value = 1;
-      document.getElementById('evolution-possible').innerText = `Max : ${Math.floor(nbBasique / 5)} transformation(s) possibles`;
-
-
-      document.getElementById('count-T0').innerText = nbBasique;
-      document.getElementById('count-T1').innerText = nbBrillante;
-      document.getElementById('count-T2').innerText = nbAlt;
-      document.getElementById('count-T3').innerText = nbNB;
-      document.getElementById('count-T4').innerText = nbGold;
-
-      const quantites = {
-        nb_exemplaires: nbBasique,
-        nb_brillante: nbBrillante,
-        nb_alternative: nbAlt,
-        nb_noir_blanc: nbNB,
-        nb_gold: nbGold
-      };
-
-      maxDisponible = quantites.nb_exemplaires;
-      document.getElementById('max-quantite').innerText = `Max: ${maxDisponible}`;
-      updatePrix();
-
-      document.getElementById('type-carte').onchange = function () {
-        const type = this.value;
-        maxDisponible = quantites[type];
-        document.getElementById('quantite').value = 1;
-        document.getElementById('max-quantite').innerText = `Max: ${maxDisponible}`;
-        updatePrix();
-      };
-    }
-    function lancerTransformation() {
-  const idCarte = document.getElementById('vente-direct-id').value;
+function lancerTransformation() {
+  const carteId = document.getElementById('carte-id-transform').value;
   const tier = document.getElementById('tier-cible').value;
   const quantite = parseInt(document.getElementById('quantite-evolution').value);
 
   if (!quantite || quantite < 1) {
-    afficherMessage("❌ Veuillez choisir une quantité valide.", false);
+    afficherMessage("❌ Veuillez saisir une quantité valide.", false);
     return;
   }
 
   fetch('/transformer-en-tier', {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `carte_id=${idCarte}&tier=${tier}&quantite=${quantite}`
+    body: `carte_id=${carteId}&tier=${tier}&quantite=${quantite}`
   })
-    .then(response => {
-      if (response.ok) {
-        afficherMessage(`✨ ${quantite} transformation(s) vers ${tier} réussie(s) !`, true);
-      } else {
-        response.text().then(msg => {
-          afficherMessage(`❌ ${msg}`, false);
-        });
-      }
-    })
-    .catch(error => {
-      console.error('Erreur:', error);
-      afficherMessage(`❌ Erreur réseau.`, false);
-    });
+  .then(response => {
+    if (response.ok) {
+      afficherMessage(`✨ ${quantite} transformation(s) vers ${tier} réussie(s) !`, true);
+    } else {
+      response.text().then(msg => {
+        afficherMessage(`❌ ${msg}`, false);
+      });
+    }
+  })
+  .catch(error => {
+    console.error('Erreur réseau :', error);
+    afficherMessage('❌ Erreur de connexion.', false);
+  });
+}
+
+function afficherMessage(message, succes) {
+  const msgDiv = document.createElement("div");
+  msgDiv.className = `fixed top-10 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-lg shadow-lg z-50 ${
+    succes ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+  }`;
+  msgDiv.innerText = message;
+
+  document.body.appendChild(msgDiv);
+
+  setTimeout(() => {
+    msgDiv.remove();
+    location.reload(); // Recharge pour mettre à jour la collection
+  }, 800);
+}
+
+function ouvrirVente() {
+  document.getElementById('bloc-vente').classList.remove('hidden');
+}
+
+function vendreCarte() {
+  const carteId = document.getElementById('carte-id-transform').value;
+  const type = document.getElementById('tier-vente').value;
+  const quantite = parseInt(document.getElementById('quantite-vente').value);
+
+  if (!quantite || quantite < 1) {
+    afficherMessage("❌ Quantité invalide", false);
+    return;
+  }
+
+  fetch('/vendre-direct', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `carte_id=${carteId}&type=${type}&quantite=${quantite}`
+  })
+  .then(response => {
+    if (response.ok) {
+      afficherMessage("💸 Vente réussie !", true);
+    } else {
+      response.text().then(msg => {
+        afficherMessage(`❌ ${msg}`, false);
+      });
+    }
+  })
+  .catch(() => {
+    afficherMessage("❌ Erreur réseau", false);
+  });
+}
+
+function mettreEnVente() {
+  const carteId = document.getElementById('carte-id-transform').value;
+  const type = document.getElementById('tier-marche').value;
+  const quantite = parseInt(document.getElementById('quantite-marche').value);
+  const prix = parseInt(document.getElementById('prix-marche').value);
+
+  if (!quantite || quantite < 1 || !prix || prix < 1) {
+    afficherMessage("❌ Données invalides", false);
+    return;
+  }
+
+  fetch('/mettre-en-vente', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `carte_id=${carteId}&type=${type}&quantite=${quantite}&prix=${prix}`
+  })
+  .then(response => {
+    if (response.ok) {
+      afficherMessage("🛒 Carte en vente au marché !", true);
+    } else {
+      response.text().then(msg => {
+        afficherMessage(`❌ ${msg}`, false);
+      });
+    }
+  })
+  .catch(() => {
+    afficherMessage("❌ Erreur réseau", false);
+  });
+}
+
+function choisirVente(type) {
+  document.getElementById('vente-directe').classList.add('hidden');
+  document.getElementById('vente-marche').classList.add('hidden');
+
+  if (type === 'direct') {
+    document.getElementById('vente-directe').classList.remove('hidden');
+  } else if (type === 'marche') {
+    document.getElementById('vente-marche').classList.remove('hidden');
+  }
 }
 
 
-    function updatePrix() {
-      const type = document.getElementById('type-carte').value;
-      const quantite = parseInt(document.getElementById('quantite').value);
-
-      const mapTier = {
-        nb_exemplaires: 'T0',
-        nb_brillante: 'T1',
-        nb_alternative: 'T2',
-        nb_noir_blanc: 'T3',
-        nb_gold: 'T4'
-      };
-
-      const tier = mapTier[type];
-      const prixUnitaire = prixVente[rareteActuelle][tier];
-      const prixTotal = prixUnitaire * quantite;
-
-
-      if (!document.getElementById('prix-total')) {
-        const priceDiv = document.createElement('div');
-        priceDiv.id = 'prix-total';
-        priceDiv.className = 'text-lg font-bold my-4';
-        document.querySelector('#modal-carte .flex.flex-col').before(priceDiv);
-      }
-
-      document.getElementById('prix-total').innerText = `💰 Prix total : ${prixTotal} jetons`;
-    }
-
-    function decreaseQuantite() {
-      const input = document.getElementById('quantite');
-      if (parseInt(input.value) > 1) {
-        input.value = parseInt(input.value) - 1;
-        updatePrix();
-      }
-    }
-
-    function increaseQuantite() {
-      const input = document.getElementById('quantite');
-      if (parseInt(input.value) < maxDisponible) {
-        input.value = parseInt(input.value) + 1;
-        updatePrix();
-      }
-    }
-
-    function fermerModal() {
-      document.getElementById("modal-carte").classList.add("hidden");
-    }
-
-    function vendreDirect() {
-      const idCarte = document.getElementById('vente-direct-id').value;
-      const type = document.getElementById('type-carte').value;
-      const quantite = document.getElementById('quantite').value;
-
-      fetch('/vendre-direct', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `carte_id=${idCarte}&quantite=${quantite}&type=${type}`
-      })
-        .then(response => {
-          if (response.ok) {
-            afficherMessage('🎉 Carte(s) vendue(s) avec succès !', true);
-          } else {
-            afficherMessage('❌ Erreur lors de la vente.', false);
-          }
-        })
-        .catch(error => {
-          console.error('Erreur:', error);
-          afficherMessage('❌ Erreur réseau.', false);
-        });
-    }
-
-    function mettreEnVente() {
-      const idCarte = document.getElementById('vente-direct-id').value;
-      const type = document.getElementById('type-carte').value;
-      const quantite = document.getElementById('quantite').value;
-
-      fetch('/mettre-en-vente', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `carte_id=${idCarte}&quantite=${quantite}&type=${type}`
-      })
-        .then(response => {
-          if (response.ok) {
-            afficherMessage('🎉 Carte(s) mise(s) en vente avec succès !', true);
-          } else {
-            afficherMessage('❌ Erreur lors de la mise en vente.', false);
-          }
-        })
-        .catch(error => {
-          console.error('Erreur:', error);
-          afficherMessage('❌ Erreur réseau.', false);
-        });
-    }
-
-    function transformerEnBrillante() {
-      const idCarte = document.getElementById('vente-direct-id').value;
-
-      if (maxDisponible < 5) {
-        afficherMessage('❌ Vous avez besoin d’au moins 5 cartes basiques pour transformer.', false);
-        return;
-      }
-
-      fetch('/transformer-en-brillante', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `carte_id=${idCarte}`
-      })
-        .then(response => {
-          if (response.ok) {
-            afficherMessage('🌟 Transformation réussie ! Vous avez obtenu une carte brillante.', true);
-          } else {
-            afficherMessage('❌ La transformation a échoué.', false);
-          }
-        })
-        .catch(error => {
-          console.error('Erreur:', error);
-          afficherMessage('❌ Erreur réseau.', false);
-        });
-    }
-
-
-    function afficherMessage(message, succes) {
-      fermerModal();
-
-      const msgDiv = document.createElement("div");
-      msgDiv.className = `fixed top-10 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-lg shadow-lg ${succes ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"}`;
-      msgDiv.innerText = message;
-
-      document.body.appendChild(msgDiv);
-
-      setTimeout(() => {
-        msgDiv.remove();
-        location.reload();
-      }, 500);
-    }
-
-    function transformerEnTier(tier) {
-      const idCarte = document.getElementById('vente-direct-id').value;
-
-      fetch('/transformer-en-tier', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `carte_id=${idCarte}&tier=${tier}`
-      })
-        .then(response => {
-          if (response.ok) {
-            afficherMessage(`✨ Transformation vers ${tier} réussie !`, true);
-          } else {
-            response.text().then(msg => {
-              afficherMessage(`❌ ${msg}`, false);
-            });
-          }
-        })
-        .catch(error => {
-          console.error('Erreur:', error);
-          afficherMessage(`❌ Erreur réseau.`, false);
-        });
-    }
-
-
-    // Glow Hover
-    document.querySelectorAll('.border').forEach(border => {
-      border.addEventListener('mouseenter', () => {
-        border.style.boxShadow = '0 0 20px ' + getComputedStyle(border).backgroundColor;
-      });
-      border.addEventListener('mouseleave', () => {
-        border.style.boxShadow = 'none';
-      });
-    });
-  </script>
-
+        </script>
+        
 </body>
 
 </html>

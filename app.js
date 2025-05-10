@@ -3,6 +3,7 @@
 // =========================
 
 // === Importations ===
+
 const express = require("express");
 // const mysql = require("mysql2");
 const pool = require('./db'); // Connexion PostgreSQL
@@ -68,8 +69,6 @@ function verifierConnexion(req, res, next) {
 
 // === Routes ===
 
-// 🧑‍💼 Connexion & Inscription
-require("./routes/auth")(app, pool, bcrypt);
 
 // 🏠 Accueil & Jetons quotidiens
 require("./routes/accueil")(app, pool, DateTime);
@@ -80,6 +79,7 @@ require("./routes/booster")(app, pool, calculerCartes, prixBoosters, color1, col
 
 // 🗂️ Collection & Transformations
 require("./routes/collection")(app, pool, rarityLetters, color1, color2);
+require("./routes/test")(app, pool, rarityLetters, color1, color2);
 require("./routes/transformations")(app, pool);
 
 // 🛒 Marché & Vente

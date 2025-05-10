@@ -16,6 +16,7 @@ module.exports = (app, pool, rarityNames, rarityLetters, color1, color2) => {
         cartes.nom,
         cartes.image_url,
         cartes.rarete,
+        cartes.description,
         cartes.id
       FROM ventes
       JOIN cartes ON cartes.id = ventes.carte_id
@@ -26,14 +27,28 @@ module.exports = (app, pool, rarityNames, rarityLetters, color1, color2) => {
         return res.redirect('/');
       }
 
+      const cartes = result.rows.map(vente => {
+        let tier = 0;
+        const type = vente.type;
+      
+        if (type === 'nb_gold') tier = 4;
+        else if (type === 'nb_noir_blanc') tier = 3;
+        else if (type === 'nb_alternative') tier = 2;
+        else if (type === 'nb_brillante') tier = 1;
+        else tier = 0;
+      
+        return { ...vente, tier };
+      });
+      
+
       res.render('marche', {
         utilisateur: req.session.utilisateur,
-        ventes: result.rows,
-        success: req.query.success,
+        ventes: cartes,
         rarityNames,
         rarityLetters,
         color1,
-        color2
+        color2,
+        success: req.query.success
       });
     });
   });

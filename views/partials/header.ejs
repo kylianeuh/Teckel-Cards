@@ -1,0 +1,34 @@
+<header
+class="relative flex flex-row items-center justify-between gap-4 bg-gray-50 p-4 px-6 sm:px-10 rounded-b border-b border-gray-500">
+
+<div class="flex flex-col sm:flex-row items-center gap-2">
+  <!-- Bloc jetons -->
+  <div class="relative">
+    <div class="bg-mint-green-100 w-40 h-16 border rounded relative">
+      <div
+        class="bg-mint-green-100 w-40 h-16 border rounded absolute top-0 left-0 -translate-x-2 translate-y-1 flex items-center justify-center px-2 space-x-2">
+        <span class="text-3xl">
+          <%= utilisateur.jetons %>
+        </span>
+        <img src="img/Teckel-Coins.png" alt="" class="h-12">
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<!-- Texte centré -->
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl hidden md:block uppercase ">
+  Bienvenue <%= utilisateur.pseudo %>
+</div>
+
+<!-- Bouton compte -->
+<div class="border rounded-full w-12 h-12 bg-principal-800">
+  <div
+    class="border rounded-full w-12 h-12 translate-x-0.5 -translate-y-0.5 active:-translate-x-0 active:translate-y-0 ease-in-out duration-100 transition bg-principal-800 active:bg-principal-200 flex items-center justify-center">
+    <img src="img/Account.svg" alt="Icône de compte" class="w-10 h-10">
+  </div>
+</div>
+</header>

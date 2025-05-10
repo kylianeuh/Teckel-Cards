@@ -1,170 +1,88 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="font-grotesque bg-mint-green-100">
 <head>
   <meta charset="UTF-8">
   <title>Marché</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/output.css">
-  <link rel="stylesheet" href="/card-style.css">
-  <style>
-    @keyframes shine {
-      0% { background-position: -100% 0; }
-      100% { background-position: 200% 0; }
-    }
-    .shine {
-      background-image: linear-gradient(120deg, rgba(255, 255, 255, 0.373) 0%, rgba(255, 255, 255, 0.675) 50%, rgba(255, 255, 255, 0.297) 100%);
-      background-size: 200% 100%;
-      animation: shine 3s infinite;
-    }
-  </style>
+  <link rel="stylesheet" href="/style-cards.css">
 </head>
 <body class="bg-gray-100 min-h-screen mb-10">
+  <%- include('partials/cartes-vars') %>
   <!-- HEADER -->
-  <header
-    class="relative flex flex-row items-center justify-between gap-4 bg-gray-50 p-4 px-6 sm:px-10 rounded-b border-b border-gray-500">
+  <%- include('partials/header') %>
 
-    <div class="flex flex-col sm:flex-row items-center gap-2">
-      <!-- Bloc jetons -->
-      <div class="relative">
-        <div class="bg-mint-green-100 w-40 h-16 border-1 rounded relative">
-          <div
-            class="bg-mint-green-100 w-40 h-16 border-1 rounded absolute top-0 left-0 -translate-x-2 translate-y-1 flex items-center justify-center px-2 space-x-2">
-            <span class="text-3xl">
-              <%= utilisateur.jetons %>
-            </span>
-            <img src="img/Teckel-Coins.png" alt="" class="h-12">
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-
-    <!-- Texte centré -->
-    <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl hidden md:block uppercase ">
-      Votre collection
-    </div>
-
-    <!-- Bouton compte -->
-    <div class="border-1 rounded-full w-12 h-12 bg-principal-800">
-      <div
-        class="border-1 rounded-full w-12 h-12 translate-x-0.5 -translate-y-0.5 active:-translate-x-0 active:translate-y-0 ease-in-out duration-100 transition bg-principal-800 active:bg-principal-200 flex items-center justify-center">
-        <img src="img/Account.svg" alt="Icône de compte" class="w-10 h-10">
-      </div>
-    </div>
-  </header>
-  <main class="m-2">
+  <main class="min-h-screen bg-gray-50 px-2 py-6">
     <div class="button-principal">
       <div><a href="/" class="text-sm">Accueil</a></div>
     </div>
+    <h1 class="text-3xl font-bold text-center mb-8">🛒 Marché des cartes</h1>
+  
+    <% if (success === 'ok') { %>
+      <div class="bg-green-100 text-green-800 p-4 rounded mb-6 text-center">Achat réussi !</div>
+    <% } else if (success === 'notenough') { %>
+      <div class="bg-red-100 text-red-800 p-4 rounded mb-6 text-center">Pas assez de jetons.</div>
+    <% } else if (success === 'error') { %>
+      <div class="bg-red-100 text-red-800 p-4 rounded mb-6 text-center">Erreur lors de la transaction.</div>
+    <% } else if (success === 'invalid') { %>
+      <div class="bg-red-100 text-red-800 p-4 rounded mb-6 text-center">Produit invalide.</div>
+    <% } if (success === 'cancelled') { %>
+      <div class="bg-yellow-100 text-yellow-800 p-4 rounded mb-6 text-center">Vente annulée.</div>
+    <% } %>
 
-
-  <!-- BOUTIQUE TIER -->
-<section class="bg-white mx-auto max-w-4xl rounded-xl shadow p-6 mt-8">
-  <h2 class="text-2xl font-bold text-center mb-4">🎁 Boutique aléatoire</h2>
-
-  <form action="/marche/acheter" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    <!-- Carte T1 -->
-    <button name="type" value="carteT1" class="p-4 border rounded-lg bg-blue-100 hover:bg-blue-200 text-left flex flex-col">
-      <h3 class="font-bold text-lg">Carte T1 (Brillante)</h3>
-      <p class="text-sm text-gray-700">Obtenez une carte de tier 1 (brillante)</p>
-      <p class="font-bold mt-2 text-blue-800">150 🪙</p>
-    </button>
-
-    <!-- Booster T1 -->
-    <button name="type" value="boosterT1" class="p-4 border rounded-lg bg-blue-300 hover:bg-blue-400 text-left flex flex-col">
-      <h3 class="font-bold text-lg">Booster T1</h3>
-      <p class="text-sm text-gray-700">3 cartes T1 aléatoires<br><span class="italic">+ 5% chance God Pack</span></p>
-      <p class="font-bold mt-2 text-blue-900">400 🪙</p>
-    </button>
-
-    <!-- Carte T2 -->
-    <button name="type" value="carteT2" class="p-4 border rounded-lg bg-purple-200 hover:bg-purple-300 text-left flex flex-col">
-      <h3 class="font-bold text-lg">Carte T2 (Alternative)</h3>
-      <p class="text-sm text-gray-700">Obtenez une carte de tier 2 (alternative)</p>
-      <p class="font-bold mt-2 text-purple-800">300 🪙</p>
-    </button>
-
-    <!-- Booster T2 -->
-    <button name="type" value="boosterT2" class="p-4 border rounded-lg bg-purple-400 hover:bg-purple-500 text-left flex flex-col">
-      <h3 class="font-bold text-lg">Booster T2</h3>
-      <p class="text-sm text-gray-700">3 cartes T2 aléatoires<br><span class="italic">+ 5% chance God Pack</span></p>
-      <p class="font-bold mt-2 text-purple-900">800 🪙</p>
-    </button>
-  </form>
-
-  <% if (success === 'ok') { %>
-    <p class="text-green-600 mt-4 text-center">✅ Achat réussi ! Cartes ajoutées à votre collection.</p>
-  <% } else if (success === 'notenough') { %>
-    <p class="text-red-600 mt-4 text-center">❌ Vous n'avez pas assez de jetons.</p>
-  <% } else if (success === 'error') { %>
-    <p class="text-red-700 mt-4 text-center">💥 Une erreur est survenue.</p>
-  <% } else if (success === 'invalid') { %>
-    <p class="text-yellow-600 mt-4 text-center">❗ Produit inconnu.</p>
-  <% } %>
-</section>
-
-
-  <!-- VENTES -->
-  <h2 class="text-2xl font-bold text-center mt-8 mb-4">🃏 Cartes en vente</h2>
-  <div class="flex flex-wrap justify-center gap-6 p-8">
-    <% ventes.forEach(vente => {
-      const tier = 'T' + vente.tier;
-      let cardClass = '';
-      if (tier === 'T1') cardClass = 'shine glow';
-      else if (tier === 'T2') cardClass = 'rainbow-border';
-      else if (tier === 'T3') cardClass = 'nb';
-      else if (tier === 'T4') cardClass = 'nb-rainbow';
+        <%
+    const tierLabels = {
+      nb_exemplaires: "Tier 0",
+      nb_brillante: "Tier 1",
+      nb_alternative: "Tier 2",
+      nb_noir_blanc: "Tier 3",
+      nb_gold: "Tier 4"
+    };
     %>
-      <div class="flex flex-col items-center">
-        
-        <div class="border border-0 relative rounded-2xl overflow-hidden w-[215px] h-[315px] <%= tier === 'T4' ? 'shiny-hover' : '' %> <%= cardClass %>"
-             style="background-color: <%= color1[vente.rarete] %>;">
-          <div class="absolute top-2 left-2 px-2 py-1 rounded-full text-xs font-bold text-white <%= 'badge-' + tier %>">
-            <%= tier %>
-          </div>
-          <div class="card relative rounded-xl overflow-hidden" style="background-color: <%= color2[vente.rarete] %>;">
-            <img src="<%= vente.image_url %>" alt="<%= vente.nom %>" class="w-full h-60 object-cover">
-            <div class="details text-center text-xs p-2">
-              <div class="name font-bold text-lg <%= tier === 'T4' ? 'text-rainbow' : '' %>"><%= vente.nom %></div>
-              <div class="desc text-gray-600 mt-1">
-                <p>Vendu par <%= vente.vendeur %></p>
-                <p>Le <%= new Date(vente.date_vente).toLocaleDateString('fr-FR') %></p>
-                <p>Prix : <%= vente.prix_par_unite %> 🪙</p>
-              </div>
-              <div class="icon mt-2 p-1 rounded-full flex items-center justify-center"
-                   style="background-color: <%= color1[vente.rarete] %>; width: 36px; height: 36px;">
-                <span class="<%= tier === 'T4' ? 'text-rainbow' : 'text-white' %>">
-                  <%= rarityLetters[vente.rarete] %>
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
 
-        <!-- Bouton d'achat -->
-        <form action="/acheter" method="POST" class="w-full mt-4">
-          <input type="hidden" name="vente_id" value="<%= vente.vente_id %>">
-          <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded w-full flex justify-center items-center gap-2">
-            Acheter pour <%= vente.prix_par_unite %>
-            <img src="/img/Teckel-Coins.png" alt="Coins" class="w-6">
-          </button>
-        </form>
+    <% const gradientMap={ 
+      1: "from-[#e8d8c3] to-[#dab892] border-yellow-700" ,
+      2: "from-[#e6e6f0] to-[#d4d4e7] border-[#a0b3c9]" , 
+      3: "from-[#edecec] to-[#e1e1e1] border-gray-400" ,
+      4: "from-[#d1b3e0] to-[#b48bc9] border-purple-700" , 
+      5: "from-[#f8c2d4] to-[#e68ca8] border-rose-700" ,
+      6: "from-[#fff9d6] to-[#ffe680] border-yellow-500" }; %>
+  
+  <div class="flex flex-wrap justify-center gap-3 md:gap-8">
+  <% ventes.forEach(carte => { %>
+    <div class="flex flex-col items-center border rounded border-gray-300 p-6 shadow-2xl">
+      <%- include('partials/carte', { carte, gradientMap, color1, rarityLetters }) %>
+      <div class="m-4">
+        <div class="text-sm text-gray-600 mt-1">Tier : <%= tierLabels[carte.type] || "Inconnue" %></div>
+        <div class="text-sm text-gray-600">Rareté : <%= rarityLetters[carte.rarete] %></div>
+        <div class="text-sm text-gray-600">Vendeur : <%= carte.vendeur %></div>
+        <div class="text-sm text-gray-800">Quantité : <%= carte.quantite %></div>
+        <div class="text-xl font-bold text-green-700 mt-2">💰 <%= carte.prix_par_unite %> jetons</div>
+
+        <% if (carte.vendeur === utilisateur.pseudo) { %>
+          <form method="POST" action="/annuler-vente" class="w-full mt-2">
+            <input type="hidden" name="vente_id" value="<%= carte.vente_id %>" />
+            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold w-full p-2 rounded">
+              ❌ Annuler la vente
+            </button>
+          </form>
+        <% } else { %>
+          <form method="POST" action="/acheter" class="w-full mt-2">
+            <input type="hidden" name="vente_id" value="<%= carte.vente_id %>" />
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold w-full p-2 rounded">
+              Acheter
+            </button>
+          </form>
+        <% } %>
       </div>
-    <% }) %>
-  </div>
-</main>
+    </div>
+  <% }) %>
+</div>
 
-  <script>
-    // Glow Hover dynamique
-    document.querySelectorAll('.border').forEach(border => {
-      border.addEventListener('mouseenter', () => {
-        border.style.boxShadow = '0 0 20px ' + getComputedStyle(border).backgroundColor;
-      });
-      border.addEventListener('mouseleave', () => {
-        border.style.boxShadow = 'none';
-      });
-    });
-  </script>
+  </main>
+  
+  <%- include('partials/footer') %>
 </body>
 </html>

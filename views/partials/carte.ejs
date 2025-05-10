@@ -1,0 +1,72 @@
+<!-- partials/carte.ejs -->
+
+<div 
+    onclick="ouvrirGestionCarte(
+    '<%= carte.id %>',
+    decodeURIComponent('<%= encodeURIComponent(carte.nom) %>'),
+    <%= carte.nb_exemplaires %>,
+    <%= carte.nb_brillante %>,
+    <%= carte.nb_alternative %>,
+    <%= carte.nb_noir_blanc %>,
+    <%= carte.nb_gold %>,
+    decodeURIComponent('<%= encodeURIComponent(carte.image_url) %>')
+    )"
+  class="bg-[<%= color1[carte.rarete] %>]
+  h-[210px] w-[140px]
+  sm:h-[222px] sm:w-[148px]
+  md:h-[269px] md:w-[179px]
+  lg:h-[332px] lg:w-[221px]
+ hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2
+    <%= carte.tier === 2 ? 'tier-t2' : '' %>
+    <%= carte.tier === 3 ? 'tier-t3' : '' %>
+    <%= carte.tier === 4 ? 'tier-t4' : '' %>">
+
+  <div class="relative overflow-hidden rounded-xl w-full h-full flex flex-col border-[2px] shadow-2xl
+              bg-gradient-to-br <%= gradientMap[carte.rarete] %>
+              <%= carte.tier >= 1 ? 'tier-t1' : '' %>">
+
+    <div class="relative">
+      <img src="<%= carte.image_url %>" alt="<%= carte.nom %>" 
+           class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600 <%= carte.tier === 3 ? 'tier-t3-img' : '' %>">
+
+      <div class="absolute top-1 left-1 text-[10px] font-bold px-2 py-0.5 rounded shadow z-10
+                  <%= carte.tier === 4 ? 'bg-gradient-to-br from-yellow-200 to-yellow-400 text-black'
+                   : carte.tier === 3 ? 'bg-gradient-to-br from-gray-300 to-gray-600 text-white'
+                   : carte.tier === 2 ? 'bg-gradient-to-br from-violet-400 to-red-500 text-white'
+                   : carte.tier === 1 ? 'bg-gradient-to-br from-blue-400 to-violet-500 text-white'
+                   : 'bg-gray-500 text-white' %>">
+        T<%= carte.tier %>
+      </div>
+    </div>
+
+    <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+      <h3 class="text-center text-sm font-bold <%= carte.tier === 4 ? 'text-outline' : 'text-black' %>">
+        <%= carte.nom %>
+      </h3>
+
+      <div class="mt-auto w-full">
+        <div class="flex justify-between md:hidden text-xs">
+          <p class="<%= carte.tier === 4 ? 'text-yellow-200' : 'text-gray-500' %>">#<%= carte.id %> - <%= carte.nb_exemplaires %>/100</p>
+          <span class="font-bold rounded-full px-2 py-1 shadow
+                       <%= carte.tier === 4 ? 'text-yellow-100' : 'text-white' %>" 
+                style="background-color: <%= color1[carte.rarete] %>">
+            <%= rarityLetters[carte.rarete] %>
+          </span>
+        </div>
+
+        <div class="hidden md:flex justify-between items-center">
+          <p class="text-xs lg:text-sm text-left w-2/3"><%= carte.description %></p>
+          <div class="w-10 h-10 lg:w-14 lg:h-14 rounded-full shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner" 
+               style="background-color: <%= color1[carte.rarete] %>">
+            <%= rarityLetters[carte.rarete] %>
+          </div>
+        </div>
+
+        <div class="hidden md:block text-center text-xs <%= carte.tier === 4 ? 'text-yellow-200' : 'text-gray-500' %>">
+          0 - <%= carte.id %>/100
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<!-- partials/modal-carte.ejs -->
+<div id="modal-carte" class="fixed inset-0 hidden bg-black/50 z-50 overflow-y-auto" onclick="fermerSiClicExterieur(event)">
+    <div class="min-h-screen flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl shadow-2xl w-full max-w-5xl p-6 relative flex flex-col md:flex-row gap-6">
+  
+        <!-- Bouton fermer -->
+        <button onclick="fermerModal()" class="absolute top-4 right-4 text-gray-500 hover:text-red-600 text-xl font-bold group">
+          <img src="/img/Close.svg" alt="Fermer" class="block group-hover:hidden w-8">
+          <img src="/img/Close-Red.svg" alt="Fermer" class="hidden group-hover:block w-8">
+        </button>
+  
+        <!-- Colonne gauche : prévisualisation & compteurs -->
+        <div class="w-full md:w-1/2 flex flex-col items-center text-center">
+          <h2 id="modal-nom" class="text-2xl font-bold mb-4">Nom de la carte</h2>
+  
+          <!-- Image -->
+          <div id="preview-image" class="w-48 h-48 rounded-xl overflow-hidden mb-4 hidden md:block">
+            <img src="" alt="Carte" class="w-full h-full object-cover">
+          </div>
+  
+          <!-- Compteurs -->
+          <div id="compteur-tiers" class="grid grid-cols-5 gap-2 text-sm mb-4 w-full">
+            <div class="bg-gray-100 p-2 rounded shadow"><strong>T0</strong><br><span id="count-T0">0</span></div>
+            <div class="bg-blue-100 p-2 rounded shadow"><strong>T1</strong><br><span id="count-T1">0</span></div>
+            <div class="bg-purple-100 p-2 rounded shadow"><strong>T2</strong><br><span id="count-T2">0</span></div>
+            <div class="bg-gray-400 text-white p-2 rounded shadow"><strong>T3</strong><br><span id="count-T3">0</span></div>
+            <div class="bg-yellow-300 p-2 rounded shadow"><strong>T4</strong><br><span id="count-T4">0</span></div>
+          </div>
+        </div>
+  
+        <!-- Colonne droite : transformation -->
+        <div class="w-full md:w-1/2 flex flex-col gap-4">
+          <h3 class="text-lg font-bold">✨ Transformation</h3>
+  
+          <label for="tier-cible" class="text-sm font-semibold">Choisir le Tier cible :</label>
+          <select id="tier-cible" class="border rounded p-2" onchange="updateEvolutionPossible()">
+            <option value="T1">Vers T1 (Brillante)</option>
+            <option value="T2">Vers T2 (Alternative)</option>
+            <option value="T3">Vers T3 (N&B)</option>
+            <option value="T4">Vers T4 (Gold)</option>
+          </select>
+  
+          <label for="quantite-evolution" class="text-sm font-semibold">Combien de cartes voulez-vous transformer ?</label>
+          <input type="number" id="quantite-evolution" value="1" min="1" class="border rounded p-2 w-24" onchange="updateEvolutionPossible()" />
+          <small id="evolution-possible" class="text-gray-500">Max : ? transformations possibles</small>
+          <input type="hidden" id="carte-id-transform" />
+          <button onclick="lancerTransformation()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 rounded">
+            ⚡ Transformer
+          </button>
+
+          <div class="mt-6 bg-red-50 p-4 rounded shadow">
+            <label class="font-semibold block mb-2">💰 Choisissez votre type de vente :</label>
+            <div class="flex gap-2">
+              <button onclick="choisirVente('direct')" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">Vente directe</button>
+              <button onclick="choisirVente('marche')" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">Vente au marché</button>
+            </div>
+          </div>
+<!-- Vente directe -->
+<div id="vente-directe" class="hidden mt-4 flex flex-col gap-2 bg-red-100 p-4 rounded">
+    <label for="tier-vente" class="text-sm font-semibold">Tier à vendre :</label>
+    <select id="tier-vente" class="border rounded p-2">
+      <option value="nb_exemplaires">T0</option>
+      <option value="nb_brillante">T1</option>
+      <option value="nb_alternative">T2</option>
+      <option value="nb_noir_blanc">T3</option>
+      <option value="nb_gold">T4</option>
+    </select>
+  
+    <label for="quantite-vente" class="text-sm font-semibold">Quantité :</label>
+    <input type="number" id="quantite-vente" class="border rounded p-2 w-24" value="1" min="1" />
+  
+    <button onclick="vendreCarte()" class="bg-red-600 text-white py-2 rounded font-bold">✅ Confirmer la vente directe</button>
+  </div>
+  
+  <!-- Vente au marché -->
+  <div id="vente-marche" class="hidden mt-4 flex flex-col gap-2 bg-green-100 p-4 rounded">
+    <label for="tier-marche" class="text-sm font-semibold">Tier à vendre :</label>
+    <select id="tier-marche" class="border rounded p-2">
+      <option value="nb_exemplaires">T0</option>
+      <option value="nb_brillante">T1</option>
+      <option value="nb_alternative">T2</option>
+      <option value="nb_noir_blanc">T3</option>
+      <option value="nb_gold">T4</option>
+    </select>
+  
+    <label for="quantite-marche" class="text-sm font-semibold">Quantité :</label>
+    <input type="number" id="quantite-marche" class="border rounded p-2 w-24" value="1" min="1" />
+  
+    <label for="prix-marche" class="text-sm font-semibold">Prix unitaire (en jetons) :</label>
+    <input type="number" id="prix-marche" class="border rounded p-2 w-32" value="1" min="1" />
+  
+    <button onclick="mettreEnVente()" class="bg-green-600 text-white py-2 rounded font-bold">✅ Mettre en vente</button>
+  </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  

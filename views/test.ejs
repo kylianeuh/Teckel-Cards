@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test Carte Responsive</title>
+    <link rel="stylesheet" href="/css/output.css" />
+    <link rel="stylesheet" href="/card-style.css" />
+    <style>
+        /* TIER 1 : BRILLANTE */
+        .tier-t1 {
+            position: relative;
+            border: 2px solid #d2d8df28;
+            box-shadow: 0 0 12px rgba(96, 165, 250, 0.3), 0 0 24px rgba(96, 165, 250, 0.2);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .tier-t1::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(120deg,
+                    rgba(255, 255, 255, 0.0) 30%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    rgba(255, 255, 255, 0.0) 70%);
+            transform: rotate(25deg);
+            animation: shineMove 2.5s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        @keyframes shineMove {
+            0% {
+                transform: translateX(-100%) rotate(25deg);
+            }
+
+            100% {
+                transform: translateX(100%) rotate(25deg);
+            }
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 8px rgba(96, 165, 250, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 16px rgba(59, 130, 246, 0.8);
+            }
+
+            100% {
+                box-shadow: 0 0 8px rgba(96, 165, 250, 0.6);
+            }
+        }
+
+
+        /* TIER 2 : RAINBOW */
+
+        .tier-t2 {
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .tier-t2::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(270deg,
+                    red,
+                    orange,
+                    yellow,
+                    green,
+                    blue,
+                    indigo,
+                    violet,
+                    red);
+            background-size: 400% 400%;
+            animation: rainbowFlow 5s linear infinite;
+            border-radius: 0.75rem;
+            /* correspond à rounded-xl */
+        }
+
+
+        @keyframes rainbowFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* TIER 3 : NOIR ET BLANC */
+
+        .tier-t3 {
+            position: relative;
+            overflow: hidden;
+            filter: grayscale(40%) contrast(1.1) brightness(1.1);
+        }
+
+        .tier-t3-img {
+            filter: grayscale(60%);
+        }
+
+        .tier-t3::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            background: linear-gradient(135deg,
+                    rgba(31, 29, 29, 0.755),
+                    rgba(202, 197, 197, 0.2));
+            mix-blend-mode: overlay;
+        }
+
+        /* T4 */
+
+
+        .tier-t4 {
+            position: relative;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .tier-t4::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(270deg,
+                    rgb(255, 251, 19),
+                    rgb(255, 221, 20),
+                    rgb(255, 208, 30),
+                    rgb(255, 221, 20),
+                    rgb(255, 251, 19));
+            background-size: 400% 400%;
+            animation: rainbowFlow 5s linear infinite;
+            border-radius: 0.75rem;
+            /* correspond à rounded-xl */
+        }
+
+
+        @keyframes rainbowFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .text-outline {
+  color: rgb(255, 234, 5);
+  text-shadow:
+    -1px -1px 0 black,
+     1px -1px 0 black,
+    -1px  1px 0 black,
+     1px  1px 0 black;
+  font-weight: bold;
+}
+
+        
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen p-6 font-sans">
+
+    <h1>T0</h1>
+
+    <div class="flex flex-row gap-3 md:gap-8 justify-center flex-wrap">
+        <div
+            class="bg-[#b87333] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2 ">
+            <div
+                class="bg-gradient-to-br from-[#e8d8c3] to-[#dab892] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-700 shadow-2xl">
+
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                        T0
+                    </div>
+                </div>
+
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span class="text-xs font-bold text-white bg-[#b87333] rounded-full px-2 py-1 shadow">
+                                C
+                            </span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b87333] shrink-0 flex justify-center items-center text-xl lg:text-3xl">
+                                C</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#b0c4de] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="bg-gradient-to-br from-[#e6e6f0] to-[#d4d4e7] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-[#a0b3c9] shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                        T0
+                    </div>
+                </div>
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-[#a0b3c9] rounded-full px-2 py-1 shadow">T</span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b0c4de] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                T</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#d2d1cf] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="bg-gradient-to-br from-[#edecec] to-[#e1e1e1] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-gray-400 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                        T0
+                    </div>
+                </div>
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-gray-500 rounded-full px-2 py-1 shadow">P</span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#d2d1cf] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                P</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#9966cc] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="bg-gradient-to-br from-[#d1b3e0] to-[#b48bc9] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-purple-700 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                        T0
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-purple-600 rounded-full px-2 py-1 shadow">A</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#9966cc] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                A</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#e0115f] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-112 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="bg-gradient-to-br from-[#f8c2d4] to-[#e68ca8] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-rose-700 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                        T0
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-black">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-[#e0115f] rounded-full px-2 py-1 shadow">R</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#e0115f] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                R</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#ffd700] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-115 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="bg-gradient-to-br from-[#fff9d6] to-[#ffe680] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-500 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gray-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                        T0
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-700">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-yellow-400 rounded-full px-2 py-1 shadow">O</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#ffd700] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                O</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-700">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <h1>T1</h1>
+
+    <div class="flex flex-row gap-3 md:gap-8 justify-center flex-wrap">
+        <div
+            class="bg-[#b87333] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#e8d8c3] to-[#dab892] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-700 shadow-2xl">
+
+                <!-- image avec étiquette T1 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600" />
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Infos en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-[#b87333] rounded-full px-2 py-1 shadow">C</span>
+                        </div>
+
+                        <!-- Desktop -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b87333] shrink-0 flex justify-center items-center text-xl lg:text-3xl">
+                                C</div>
+                        </div>
+
+                        <!-- Desktop : ID centré -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div
+            class="bg-[#b0c4de] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#e6e6f0] to-[#d4d4e7] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-[#a0b3c9] shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-[#a0b3c9] rounded-full px-2 py-1 shadow">T</span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b0c4de] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                T</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#d2d1cf] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#edecec] to-[#e1e1e1] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-gray-400 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-gray-500 rounded-full px-2 py-1 shadow">P</span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#d2d1cf] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                P</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#9966cc] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#d1b3e0] to-[#b48bc9] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-purple-700 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-purple-600 rounded-full px-2 py-1 shadow">A</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#9966cc] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                A</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#e0115f] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-112 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#f8c2d4] to-[#e68ca8] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-rose-700 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-black">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-[#e0115f] rounded-full px-2 py-1 shadow">R</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#e0115f] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                R</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="bg-[#ffd700] w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-115 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#fff9d6] to-[#ffe680] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-500 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-700">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-yellow-400 rounded-full px-2 py-1 shadow">O</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#ffd700] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                O</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-700">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <h1>T2</h1>
+
+    <div class="flex flex-row gap-3 md:gap-8 justify-center flex-wrap">
+        <div
+            class="tier-t2 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#e8d8c3] to-[#dab892] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-700 shadow-2xl">
+
+                <!-- image avec étiquette T1 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600" />
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Infos en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-[#b87333] rounded-full px-2 py-1 shadow">C</span>
+                        </div>
+
+                        <!-- Desktop -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b87333] shrink-0 flex justify-center items-center text-xl lg:text-3xl">
+                                C</div>
+                        </div>
+
+                        <!-- Desktop : ID centré -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div
+            class="tier-t2 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#e6e6f0] to-[#d4d4e7] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-[#a0b3c9] shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-[#a0b3c9] rounded-full px-2 py-1 shadow">T</span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b0c4de] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                T</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="tier-t2 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#edecec] to-[#e1e1e1] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-gray-400 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-gray-500 rounded-full px-2 py-1 shadow">P</span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#d2d1cf] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                P</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="tier-t2 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#d1b3e0] to-[#b48bc9] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-purple-700 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-violet-400 to-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T2
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-purple-600 rounded-full px-2 py-1 shadow">A</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#9966cc] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                A</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="tier-t2 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-112 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#f8c2d4] to-[#e68ca8] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-rose-700 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-black">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-[#e0115f] rounded-full px-2 py-1 shadow">R</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#e0115f] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                R</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="tier-t2 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-115 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#fff9d6] to-[#ffe680] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-500 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-blue-400 to-violet-500 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T1
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-700">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-yellow-400 rounded-full px-2 py-1 shadow">O</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#ffd700] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                O</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-700">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <h1>T3</h1>
+
+    <div class="flex flex-row gap-3 md:gap-8 justify-center flex-wrap">
+        <div
+            class="tier-t3 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#e8d8c3] to-[#dab892] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-700 shadow-2xl">
+
+                <!-- image avec étiquette T3 -->
+                <div class="relative z-0">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600 tier-t3-img" />
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-gray-300 to-gray-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T3
+                    </div>
+                </div>
+
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2 z-0">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Infos -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-[#b87333] rounded-full px-2 py-1 shadow z-10">C</span>
+                        </div>
+
+                        <!-- Desktop -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b87333] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner z-10">
+                                C</div>
+                        </div>
+
+                        <!-- ID -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div
+            class="tier-t3 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#e6e6f0] to-[#d4d4e7] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-[#a0b3c9] shadow-2xl">
+
+                <!-- image avec étiquette T3 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600 tier-t3-img">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-gray-300 to-gray-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T3
+                    </div>
+                </div>
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-[#a0b3c9] rounded-full px-2 py-1 shadow">T</span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b0c4de] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                T</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="tier-t3 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#edecec] to-[#e1e1e1] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-gray-400 shadow-2xl">
+
+                <!-- image avec étiquette T3 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600 tier-t3-img">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-gray-300 to-gray-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T3
+                    </div>
+                </div>
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <!-- Nom -->
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <!-- Bloc infos qui va tout en bas -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile : ID à gauche, lettre à droite -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-white bg-gray-500 rounded-full px-2 py-1 shadow">P</span>
+                        </div>
+
+                        <!-- Desktop : description + rareté -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#d2d1cf] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                P</div>
+                        </div>
+
+                        <!-- Desktop : ID centré en bas -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="tier-t3 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#d1b3e0] to-[#b48bc9] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-purple-700 shadow-2xl">
+
+                <!-- image avec étiquette T3 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600 tier-t3-img">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-gray-300 to-gray-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T3
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-purple-600 rounded-full px-2 py-1 shadow">A</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#9966cc] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                A</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="tier-t3 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-112 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#f8c2d4] to-[#e68ca8] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-rose-700 shadow-2xl">
+
+                <!-- image avec étiquette T3 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600 tier-t3-img">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-gray-300 to-gray-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T3
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-black">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-[#e0115f] rounded-full px-2 py-1 shadow">R</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#e0115f] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                R</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-200">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div
+            class="tier-t3 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-115 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#fff9d6] to-[#ffe680] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-500 shadow-2xl">
+
+                <!-- image avec étiquette T0 -->
+                <div class="relative">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-600 tier-t3-img">
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-gray-300 to-gray-600 text-white text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T3
+                    </div>
+                </div>
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+                    <h3 class="text-center text-black text-sm font-bold">Teckel Informaticien</h3>
+
+                    <div class="mt-auto w-full">
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-700">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-black bg-yellow-400 rounded-full px-2 py-1 shadow">O</span>
+                        </div>
+
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#ffd700] shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner">
+                                O</div>
+                        </div>
+
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-700">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <h1>T4</h1>
+
+    <div class="flex flex-row gap-3 md:gap-8 justify-center flex-wrap">
+        <div
+            class="tier-t4 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+            <div
+                class="tier-t1 bg-gradient-to-br from-[#e8d8c3] to-[#dab892] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-700 shadow-2xl">
+
+                <!-- image avec étiquette T3 -->
+                <div class="relative z-0">
+                    <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+                        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-400 " />
+
+                    <div
+                        class="absolute top-1 left-1 bg-gradient-to-br from-yellow-200 to-yellow-400 text-black text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+                        T4
+                    </div>
+                </div>
+
+                <!-- contenu -->
+                <div class="flex-1 flex flex-col justify-between p-1 lg:p-2 z-0">
+                    <!-- Nom -->
+                    <h3 class="text-center text-sm font-bold text-outline">Teckel Informaticien</h3>
+
+                    <!-- Infos -->
+                    <div class="mt-auto w-full">
+                        <!-- Mobile -->
+                        <div class="flex justify-between md:hidden">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                            <span
+                                class="text-xs font-bold text-yellow-200 bg-[#b87333] rounded-full px-2 py-1 shadow z-10">C</span>
+                        </div>
+
+                        <!-- Desktop -->
+                        <div class="hidden md:flex justify-between items-center">
+                            <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                            <div
+                                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b87333] border-yellow-300 shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner z-10">
+                                C</div>
+                        </div>
+
+                        <!-- ID -->
+                        <div class="hidden md:block text-center">
+                            <p class="text-xs text-gray-500">0 - 50/100</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div
+        class="tier-t4 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+        <div
+          class="tier-t1 bg-gradient-to-br from-[#e6e6f0] to-[#d4d4e7] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-[#a0b3c9] shadow-2xl">
+      
+          <!-- image + étiquette -->
+          <div class="relative z-0">
+            <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+              class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-400" />
+      
+            <div
+              class="absolute top-1 left-1 bg-gradient-to-br from-yellow-200 to-yellow-400 text-black text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+              T4
+            </div>
+          </div>
+      
+          <!-- contenu -->
+          <div class="flex-1 flex flex-col justify-between p-1 lg:p-2 z-0">
+            <!-- Nom -->
+            <h3 class="text-center text-sm font-bold text-outline">Teckel Informaticien</h3>
+      
+            <!-- Infos -->
+            <div class="mt-auto w-full">
+              <!-- Mobile -->
+              <div class="flex justify-between md:hidden">
+                <p class="text-xs text-gray-500">0 - 50/100</p>
+                <span
+                  class="text-xs font-bold text-yellow-200 bg-[#a0b3c9] rounded-full px-2 py-1 shadow z-10">T</span>
+              </div>
+      
+              <!-- Desktop -->
+              <div class="hidden md:flex justify-between items-center">
+                <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+                <div
+                  class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#b0c4de] border-yellow-300 shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner z-10">
+                  T</div>
+              </div>
+      
+              <!-- ID -->
+              <div class="hidden md:block text-center">
+                <p class="text-xs text-gray-500">0 - 50/100</p>
+              </div>
+            </div>
+          </div>
+      
+        </div>
+      </div>
+      
+
+      <div
+      class="tier-t4 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+      <div
+        class="tier-t1 bg-gradient-to-br from-[#edecec] to-[#e1e1e1] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-gray-400 shadow-2xl">
+    
+        <!-- image + étiquette -->
+        <div class="relative">
+          <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+            class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-400" />
+    
+          <div
+            class="absolute top-1 left-1 bg-gradient-to-br from-yellow-200 to-yellow-400 text-black text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+            T4
+          </div>
+        </div>
+    
+        <!-- contenu -->
+        <div class="flex-1 flex flex-col justify-between p-1 lg:p-2 z-0">
+          <!-- Nom -->
+          <h3 class="text-center text-sm font-bold text-outline">Teckel Informaticien</h3>
+    
+          <!-- Infos -->
+          <div class="mt-auto w-full">
+            <!-- Mobile -->
+            <div class="flex justify-between md:hidden">
+              <p class="text-xs text-gray-500">0 - 50/100</p>
+              <span
+                class="text-xs font-bold text-yellow-200 bg-gray-500 rounded-full px-2 py-1 shadow z-10">P</span>
+            </div>
+    
+            <!-- Desktop -->
+            <div class="hidden md:flex justify-between items-center">
+              <p class="text-xs lg:text-sm text-left w-2/3">enlevé quand c'est en mobile</p>
+              <div
+                class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#d2d1cf] border-yellow-300 shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner z-10">
+                P</div>
+            </div>
+    
+            <!-- ID -->
+            <div class="hidden md:block text-center">
+              <p class="text-xs text-gray-500">0 - 50/100</p>
+            </div>
+          </div>
+        </div>
+    
+      </div>
+    </div>
+    
+
+    <div
+    class="tier-t4 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+    <div
+      class="tier-t1 bg-gradient-to-br from-[#d1b3e0] to-[#b48bc9] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-purple-700 shadow-2xl">
+  
+      <!-- image avec étiquette T4 -->
+      <div class="relative">
+        <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+          class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-400" />
+  
+        <div
+          class="absolute top-1 left-1 bg-gradient-to-br from-yellow-200 to-yellow-400 text-black text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+          T4
+        </div>
+      </div>
+  
+      <!-- contenu -->
+      <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+        <!-- Nom -->
+        <h3 class="text-center text-sm font-bold text-outline">Teckel Informaticien</h3>
+  
+        <!-- Infos -->
+        <div class="mt-auto w-full">
+          <!-- Mobile -->
+          <div class="flex justify-between md:hidden">
+            <p class="text-xs text-gray-200">0 - 50/100</p>
+            <span
+              class="text-xs font-bold text-yellow-100 bg-purple-600 rounded-full px-2 py-1 shadow z-10">A</span>
+          </div>
+  
+          <!-- Desktop -->
+          <div class="hidden md:flex justify-between items-center">
+            <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+            <div
+              class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#9966cc] border-yellow-300 shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner z-10">
+              A</div>
+          </div>
+  
+          <!-- ID -->
+          <div class="hidden md:block text-center">
+            <p class="text-xs text-gray-200">0 - 50/100</p>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+
+  <div
+  class="tier-t4 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-112 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+  <div
+    class="tier-t1 bg-gradient-to-br from-[#f8c2d4] to-[#e68ca8] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-rose-700 shadow-2xl">
+
+    <!-- image avec étiquette T4 -->
+    <div class="relative">
+      <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-400 tier-t3-img">
+
+      <div
+        class="absolute top-1 left-1 bg-gradient-to-br from-yellow-200 to-yellow-400 text-black text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+        T4
+      </div>
+    </div>
+
+    <!-- contenu -->
+    <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+      <!-- Nom -->
+      <h3 class="text-center text-sm font-bold text-outline">Teckel Informaticien</h3>
+
+      <!-- Infos -->
+      <div class="mt-auto w-full">
+        <!-- Mobile -->
+        <div class="flex justify-between md:hidden">
+          <p class="text-xs text-black">0 - 50/100</p>
+          <span class="text-xs font-bold text-yellow-100 bg-[#e0115f] rounded-full px-2 py-1 shadow z-10">R</span>
+        </div>
+
+        <!-- Desktop -->
+        <div class="hidden md:flex justify-between items-center">
+          <p class="text-xs lg:text-sm text-left w-2/3 text-black">enlevé quand c'est en mobile</p>
+          <div
+            class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#e0115f] border-yellow-300 shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner z-10">
+            R</div>
+        </div>
+
+        <!-- ID -->
+        <div class="hidden md:block text-center">
+          <p class="text-xs text-gray-200">0 - 50/100</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div
+  class="tier-t4 w-[130px] h-[206px] sm:w-[140px] sm:h-[222px] md:w-[170px] md:h-[269px] lg:w-[210px] lg:h-[332px] hover:scale-110 hover:duration-150 hover:brightness-115 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2">
+  <div
+    class="tier-t1 bg-gradient-to-br from-[#fff9d6] to-[#ffe680] w-full h-full rounded-xl overflow-hidden flex flex-col border-[2px] border-yellow-500 shadow-2xl">
+
+    <!-- image avec étiquette T4 -->
+    <div class="relative">
+      <img src="/img_Cartes/Teckel-0-01.webp" alt=""
+        class="w-full aspect-square object-cover border-b-2 shadow-2xl border-yellow-400 tier-t3-img">
+
+      <div
+        class="absolute top-1 left-1 bg-gradient-to-br from-yellow-100 to-yellow-300 text-black text-[10px] font-bold px-2 py-0.5 rounded shadow z-10">
+        T4
+      </div>
+    </div>
+
+    <!-- contenu -->
+    <div class="flex-1 flex flex-col justify-between p-1 lg:p-2">
+      <!-- Nom -->
+      <h3 class="text-center text-sm font-bold text-outline ">Teckel Informaticien</h3>
+
+      <!-- Infos -->
+      <div class="mt-auto w-full">
+        <!-- Mobile -->
+        <div class="flex justify-between md:hidden">
+          <p class="text-xs text-yellow-700">0 - 50/100</p>
+          <span class="text-xs font-bold text-yellow-100 bg-[#ffd700] rounded-full px-2 py-1 shadow z-10">O</span>
+        </div>
+
+        <!-- Desktop -->
+        <div class="hidden md:flex justify-between items-center">
+          <p class="text-xs lg:text-sm text-left w-2/3 text-yellow-900">enlevé quand c'est en mobile</p>
+          <div
+            class="w-10 h-10 lg:w-14 lg:h-14 rounded-full bg-[#ffd700] border-yellow-300 shrink-0 flex justify-center items-center text-xl lg:text-3xl text-black shadow-inner z-10">
+            O</div>
+        </div>
+
+        <!-- ID -->
+        <div class="hidden md:block text-center">
+          <p class="text-xs text-yellow-800">0 - 50/100</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+    </div>
+
+
+</body>
+
+</html>
