@@ -323,8 +323,12 @@ if (minutesPassees > 0) {
       gain = Math.ceil(gain * 100) / 100;
 
 
-      const nouveauTotal = parseFloat(user.os) + parseFloat(gain);
+      const ancienTotal = Number(user.os) || 0;
+      const nouveauTotal = Math.round((ancienTotal + gain) * 100) / 100;
       console.log(`🧮 Clic → ${gain.toFixed(2)} os gagnés (nouveau total : ${nouveauTotal.toFixed(2)})`);
+      if (isNaN(nouveauTotal)) {
+        return res.status(500).json({ error: "Erreur : total os invalide (NaN)." });
+      }
 
 
 
