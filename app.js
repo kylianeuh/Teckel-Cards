@@ -14,12 +14,12 @@ const { DateTime } = require("luxon");
 
 console.log("🚀 Test de connexion à la base PostgreSQL...");
 
-pool.query('SELECT * FROM utilisateurs WHERE id = $1', [2])
+pool.query('SELECT * FROM utilisateurs WHERE id = $1', [1])
   .then(result => {
     if (result.rows.length === 0) {
-      console.log('❌ Aucun utilisateur avec l\'ID 2 trouvé.');
+      console.log('❌ Aucun utilisateur avec l\'ID 1 trouvé.');
     } else {
-      console.log('👤 Utilisateur ID 2 :', result.rows[0]);
+      console.log('👤 Utilisateur ID 1 :', result.rows[0]);
     }
   })
   .catch(err => {
@@ -32,6 +32,7 @@ const app = express();
 
 // === Configuration générale ===
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -86,6 +87,9 @@ require("./routes/transformations")(app, pool);
 require("./routes/marche")(app, pool, rarityNames, rarityLetters, color1, color2);
 require("./routes/acheter")(app, pool);
 require("./routes/ventes")(app, pool);
+
+// 🏆 Clicker
+require("./routes/clicker")(app, pool);
 
 app.listen(3000, () => {
   console.log("Serveur lancé sur http://localhost:3000");

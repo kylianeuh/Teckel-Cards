@@ -14,8 +14,10 @@
           <h2 id="modal-nom" class="text-2xl font-bold mb-4">Nom de la carte</h2>
   
           <!-- Image -->
-          <div id="preview-image" class="w-48 h-48 rounded-xl overflow-hidden mb-4 hidden md:block">
-            <img src="" alt="Carte" class="w-full h-full object-cover">
+          <div id="preview-carte" class="mb-4 w-[200px] sm:w-[240px] md:w-[280px]">
+            <% if (cartePreview) { %>
+              <%- include('partials/carte', { carte: cartePreview, gradientMap, color1, rarityLetters }) %>
+            <% } %>
           </div>
   
           <!-- Compteurs -->
@@ -26,6 +28,11 @@
             <div class="bg-gray-400 text-white p-2 rounded shadow"><strong>T3</strong><br><span id="count-T3">0</span></div>
             <div class="bg-yellow-300 p-2 rounded shadow"><strong>T4</strong><br><span id="count-T4">0</span></div>
           </div>
+
+          <button onclick="assignerAuClicker()"
+          class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded mt-4 w-full">
+          ⚡ Assigner au Clicker
+       </button>
         </div>
   
         <!-- Colonne droite : transformation -->
@@ -91,7 +98,7 @@
   
     <button onclick="mettreEnVente()" class="bg-green-600 text-white py-2 rounded font-bold">✅ Mettre en vente</button>
   </div>
-  
+
         </div>
       </div>
     </div>

@@ -1,7 +1,12 @@
 <!-- partials/carte.ejs -->
-
 <div 
-    onclick="ouvrirGestionCarte(
+  draggable="true"
+  ondragstart="drag(event, <%= carte.index %>)"
+  ondrop="drop(event, <%= carte.index %>)"
+  ondragover="allowDrop(event)"
+
+  
+  onclick="ouvrirGestionCarte(
     '<%= carte.id %>',
     decodeURIComponent('<%= encodeURIComponent(carte.nom) %>'),
     <%= carte.nb_exemplaires %>,
@@ -10,17 +15,22 @@
     <%= carte.nb_noir_blanc %>,
     <%= carte.nb_gold %>,
     decodeURIComponent('<%= encodeURIComponent(carte.image_url) %>')
-    )"
-  class="bg-[<%= color1[carte.rarete] %>]
-  h-[210px] w-[140px]
-  sm:h-[222px] sm:w-[148px]
-  md:h-[269px] md:w-[179px]
-  lg:h-[332px] lg:w-[221px]
- hover:scale-110 hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2
+  )"
+  <% if (typeof carte.index !== 'undefined') { %>
+    draggable="true"
+    ondragstart="onDragStart(event, <%= carte.index %>)"
+    ondragover="onDragOver(event)"
+    ondrop="onDrop(event, <%= carte.index %>)"
+    data-slot="<%= carte.index %>"
+  <% } %>
+  class="
+    bg-[<%= color1[carte.rarete] %>]
+    <%= carte.taille === 'grande' ? 'w-[220px] h-[340px] md:w-[260px] md:h-[400px] lg:w-[300px] lg:h-[460px]' : 'h-[210px] w-[140px] sm:h-[222px] sm:w-[148px] md:h-[269px] md:w-[179px] lg:h-[332px] lg:w-[221px]' %>
+    <%= carte.taille !== 'grande' ? 'hover:scale-110' : '' %> hover:duration-150 hover:brightness-110 ease-in-out transition rounded-xl p-1 md:p-1.5 lg:p-2
     <%= carte.tier === 2 ? 'tier-t2' : '' %>
     <%= carte.tier === 3 ? 'tier-t3' : '' %>
-    <%= carte.tier === 4 ? 'tier-t4' : '' %>">
-
+    <%= carte.tier === 4 ? 'tier-t4' : '' %>
+  ">
   <div class="relative overflow-hidden rounded-xl w-full h-full flex flex-col border-[2px] shadow-2xl
               bg-gradient-to-br <%= gradientMap[carte.rarete] %>
               <%= carte.tier >= 1 ? 'tier-t1' : '' %>">
@@ -69,4 +79,9 @@
     </div>
 
   </div>
+    <!-- Gain flottant pour cette carte -->
+<div class="gain-flottant absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-green-700 text-2xl font-bold pointer-events-none hidden z-20">
+  +0.00
+</div>
+
 </div>

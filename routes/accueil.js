@@ -74,8 +74,6 @@ GROUP BY u.pseudo
 ORDER BY total_cartes DESC
 LIMIT 10;`
         );
-        resultCartesObtenue = resTirages.rows;
-        console.log("👑 Classement cartes obtenues :", resultCartesObtenue);
       } catch (err) {
         console.warn("⚠️ Classement Tirages :", err.message);
       }

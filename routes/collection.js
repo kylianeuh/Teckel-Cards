@@ -49,6 +49,7 @@ module.exports = (app, pool, rarityLetters, color1, color2) => {
           utilisateur: req.session.utilisateur,
             cartes,
             statsTier,
+            cartePreview: null,
             color1: {
               1: "#b87333", // Cuivre
               2: "#b0c4de", // Titane

@@ -40,7 +40,9 @@
                 6: "from-[#fff9d6] to-[#ffe680] border-yellow-500" }; %>
             <div class="flex flex-wrap justify-center gap-3 md:gap-8">
             <% cartes.forEach(carte=> { %>
-            <%- include('partials/carte', { carte, gradientMap, color1, rarityLetters }) %>
+              <div data-id-carte="<%= carte.id %>">
+                <%- include('partials/carte', { carte, gradientMap, color1, rarityLetters }) %>
+              </div>
             <% }) %>
             </div>
             <%- include('partials/modal-carte') %>
@@ -48,27 +50,28 @@
     <%- include('partials/footer') %>
 
     <script>
-        function ouvrirGestionCarte(id, nom, nbT0, nbT1, nbT2, nbT3, nbT4, imageUrl) {
-          document.getElementById('carte-id-transform').value = id;
-          document.getElementById('modal-carte').classList.remove('hidden');
-          document.getElementById('modal-nom').innerText = nom;
-          document.querySelector('#preview-image img').src = imageUrl;
-        
-          document.getElementById('count-T0').innerText = nbT0;
-          document.getElementById('count-T1').innerText = nbT1;
-          document.getElementById('count-T2').innerText = nbT2;
-          document.getElementById('count-T3').innerText = nbT3;
-          document.getElementById('count-T4').innerText = nbT4;
-        
-          // Enregistrer les données pour calculs
-          window._carteEnCours = { id, nbT0, nbT1, nbT2, nbT3, nbT4 };
-        
-          // Réinitialiser la sélection
-          document.getElementById('tier-cible').value = 'T1';
-          document.getElementById('quantite-evolution').value = 1;
-        
-          updateEvolutionPossible();
-        }
+function ouvrirGestionCarte(id, nom, nbT0, nbT1, nbT2, nbT3, nbT4, imageUrl) {
+  document.getElementById('carte-id-transform').value = id;
+  document.getElementById('modal-carte').classList.remove('hidden');
+  document.getElementById('modal-nom').innerText = nom;
+
+  // 💡 Remplace le bloc par la vraie carte
+  const carteDom = document.querySelector(`[data-id-carte="${id}"]`);
+  const previewContainer = document.getElementById('preview-carte');
+  previewContainer.innerHTML = carteDom ? carteDom.innerHTML : "Carte introuvable";
+
+  // MàJ des compteurs
+  document.getElementById('count-T0').innerText = nbT0;
+  document.getElementById('count-T1').innerText = nbT1;
+  document.getElementById('count-T2').innerText = nbT2;
+  document.getElementById('count-T3').innerText = nbT3;
+  document.getElementById('count-T4').innerText = nbT4;
+
+  window._carteEnCours = { id, nbT0, nbT1, nbT2, nbT3, nbT4 };
+  document.getElementById('tier-cible').value = 'T1';
+  document.getElementById('quantite-evolution').value = 1;
+  updateEvolutionPossible();
+}
 
         function updateEvolutionPossible() {
         const tierCible = document.getElementById('tier-cible').value;
@@ -226,6 +229,29 @@ function choisirVente(type) {
   } else if (type === 'marche') {
     document.getElementById('vente-marche').classList.remove('hidden');
   }
+}
+
+function assignerAuClicker() {
+  const carteId = document.getElementById('carte-id-transform').value;
+
+  fetch('/clicker/assigner', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ carteId })
+  })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        afficherMessage(`✅ Carte assignée au slot ${data.emplacement} avec Tier T${data.tier}`, true);
+        
+      } else {
+        afficherMessage(`❌ ${data.error}`, false);
+      }
+    })
+    .catch(err => {
+      console.error("❌ Erreur JS assignation :", err);
+      afficherMessage("❌ Erreur de connexion", false);
+    });
 }
 
 

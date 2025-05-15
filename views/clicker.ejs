@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" class="select-none cursor-pointer font-grotesque bg-mint-green-100">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/output.css" />
+  <link rel="stylesheet" href="/style-cards.css" />
+  <title>Document</title>
+  <style>
+    @keyframes floatGain {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      100% {
+        opacity: 0;
+        transform: translateY(-40px);
+      }
+    }
+
+    .animate-float-gain {
+      animation: floatGain 1s ease-out forwards;
+    }
+  </style>
+
+</head>
+
+<body>
+  <header
+  class="relative flex flex-row items-center justify-between gap-4 bg-gray-50 p-4 px-6 sm:px-10 rounded-b border-b border-gray-500">
+  
+  <div class="flex flex-col sm:flex-row items-center gap-2">
+    <!-- Bloc jetons -->
+    <div class="relative">
+      <div class="bg-mint-green-100 w-40 h-16 border rounded relative">
+        <div
+          class="bg-mint-green-100 w-40 h-16 border rounded absolute top-0 left-0 -translate-x-2 translate-y-1 flex items-center justify-center px-2 space-x-2">
+          <span id="jetonsTotal" class="text-3xl">
+            <%= utilisateur.jetons || 0 %>
+          </span>
+          <img src="img/Teckel-Coins.png" alt="" class="h-12">
+        </div>
+      </div>
+  
+    </div>
+  </div>
+  
+  
+  
+  <!-- Texte centré -->
+  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-3xl hidden md:block uppercase ">
+    Clicker Teckel
+  </div>
+  
+  <!-- Bouton compte -->
+  <div class="border rounded-full w-12 h-12 bg-principal-800">
+    <div
+      class="border rounded-full w-12 h-12 translate-x-0.5 -translate-y-0.5 active:-translate-x-0 active:translate-y-0 ease-in-out duration-100 transition bg-principal-800 active:bg-principal-200 flex items-center justify-center">
+      <img src="img/Account.svg" alt="Icône de compte" class="w-10 h-10">
+    </div>
+  </div>
+  </header>
+  <main>
+    <div class=" px-2 pt-3">
+    <div class="button-principal">
+      <div><a href="/" class="text-sm">Accueil</a></div>
+    </div>
+  </div>
+    <div class="min-h-screen  p-4">
+      <div class="text-center">
+        <p class="text-xl font-semibold">Os collectés : <span id="osTotal">
+            <%= os %>
+          </span> 🦴</p>
+        <div class="text-center mt-6">
+          <button id="btn-recolter"
+          onclick="collecterOs()"
+          class="<%= osDisponibles === 0 ? 'bg-gray-300 text-gray-600 cursor-not-allowed' : 'bg-green-500 hover:bg-green-600 text-white' %> px-6 py-2 rounded"
+          <%=osDisponibles===0 ? 'disabled' : '' %>>
+          ✨ Récolter <%= osDisponibles %> os
+        </button>
+          <button onclick="ouvrirBoutiqueOs()" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded">
+            Boutique
+          </button>
+        </div>
+        <!-- <%// if (boostActif) { %>
+          <p class="text-green-600 font-semibold">Boost actif : <%= boostActif %> jusqu'à <%= boostFin %>
+          </p>
+          <%// } %> -->
+      </div>
+
+      <% const gradientMap={ 1: "from-[#e8d8c3] to-[#dab892] border-yellow-700" ,
+        2: "from-[#e6e6f0] to-[#d4d4e7] border-[#a0b3c9]" , 3: "from-[#edecec] to-[#e1e1e1] border-gray-400" ,
+        4: "from-[#d1b3e0] to-[#b48bc9] border-purple-700" , 5: "from-[#f8c2d4] to-[#e68ca8] border-rose-700" ,
+        6: "from-[#fff9d6] to-[#ffe680] border-yellow-500" }; %>
+      <%
+      const prodParHeure = {
+        1: [20, 30, 50, 80, 130],
+        2: [30, 45, 75, 120, 195],
+        3: [40, 60, 100, 160, 260],
+        4: [50, 75, 125, 200, 325],
+        5: [70, 105, 175, 280, 455],
+        6: [100, 150, 250, 400, 650]
+      };
+      %>
+        <!-- Carte centrale (index 2) -->
+        <div class="flex justify-center my-6">
+          <% const carteCentrale=cartes.find(c=> c.emplacement === 2); %>
+            <% if (carteCentrale) { carteCentrale.taille='grande' ; carteCentrale.index=2;
+              carteCentrale.showButton=true; %>
+
+              <div class="relative border border-gray-300 shadow-2xl p-2 md:p-4 rounded"
+                onclick="clickerCarte(<%= carteCentrale.index %>)">
+                <%- include('partials/carte', { carte: carteCentrale, gradientMap, color1, rarityLetters }) %>
+                <div class="mt-1 bg-principal-200 text-white text-center font-bold px-2 rounded  w-full">
+                  <%= prodParHeure[carteCentrale.rarete]?.[carteCentrale.tier] %> os / heure
+                  </div>
+              </div>
+              <% } %>
+        </div>
+
+        <!-- Autres cartes -->
+        <div class="flex flex-wrap justify-center gap-1 md:gap-6">
+          <% for (let i=0; i < 5; i++) { if (i===2) continue; // la carte centrale est déjà affichée const
+            carte=cartes.find(c=> c.emplacement === i);
+            %>
+            <div
+              class="p-1 border rounded shadow-2xl md:m-2 md:p-6 border-gray-300 flex flex-col items-center justify-center relative"
+              data-slot="<%= i %>">
+
+              <% if (carte) { %>
+                <%- include('partials/carte', { carte, gradientMap, color1, rarityLetters }) %>
+                  <div class="mt-1 bg-principal-200 text-white text-center font-bold px-2 md:mt-6 rounded w-full">
+                    <%= prodParHeure[carte.rarete]?.[carte.tier] %> os / heure
+                  </div>
+                  <button onclick="retirerCarte(<%= i %>)"
+                    class="mt-1 bg-red-500 text-white text-xs px-2 py-1 rounded hover:bg-red-600 w-full">
+                    ❌ Retirer
+                  </button>
+                  <% } else { %>
+                    <div class="text-gray-400 text-sm">Aucune carte</div>
+                    <div class="button-mint m-4">
+                    <div><a href="/collection" class="text-xs">Ajouter une carte</a></div>
+                    </div>
+                    <% } %>
+
+            </div>
+            <% } %>
+
+        </div>
+
+
+    </div>
+
+
+    <div id="modal-boutique" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+      <div class="bg-white rounded-xl p-6 w-[90%] max-w-md shadow-xl text-center relative">
+        <h2 class="text-2xl font-bold mb-4">🛒 Boutique Os</h2>
+
+        <div class="space-y-4">
+
+          <div class="border p-4 rounded border-gray-300 bg-gray-50 shadow-2xs flex flex-col items-center">
+
+            <p class="text-lg font-semibold">Acheter des os</p>
+            <div class="flex flex-row justify-between w-full items-center">
+              <p class="text-gray-600">Coût : <strong>200 os</strong></p>
+              <button onclick="acheterPieces(200, 1)"
+                class="m-2 bg-principal-200 text-white px-4 py-1 rounded ">
+                Acheter 1 pièce
+              </button>
+            </div>
+            <div class="flex flex-row justify-between w-full items-center">
+              <p class="text-gray-600">Coût : <strong>1000 os</strong></p>
+              <button onclick="acheterPieces(1000, 6)"
+                class="m-2 bg-principal-200 text-white px-4 py-1 rounded ">
+                Acheter 6 pièces
+              </button>
+            </div>
+            <div class="flex flex-row justify-between w-full items-center">
+              <p class="text-gray-600">Coût : <strong>2000 os</strong></p>
+              <button onclick="acheterPieces(2000, 13)"
+                class="m-2 bg-principal-200 text-white px-4 py-1 rounded ">
+                Acheter 13 pièces
+              </button>
+            </div>
+            <div class="flex flex-row justify-between w-full items-center">
+              <p class="text-gray-600">Coût : <strong>5000 os</strong></p>
+              <button onclick="acheterPieces(5000, 33)"
+                class="m-2 bg-principal-200 text-white px-4 py-1 rounded ">
+                Acheter 33 pièces
+              </button>
+            </div>
+            <div class="flex flex-row justify-between w-full items-center">
+              <p class="text-gray-600">Coût : <strong>10000 os</strong></p>
+              <button onclick="acheterPieces(10000, 70)"
+                class="m-2 bg-principal-200 text-white px-4 py-1 rounded ">
+                Acheter 70 pièces
+              </button>
+            </div>
+            <div class="flex flex-row justify-between w-full items-center">
+              <p class="text-gray-600">Coût : <strong>20000 os</strong></p>
+              <button onclick="acheterPieces(20000, 150)"
+                class="m-2 bg-principal-200 text-white px-4 py-1 rounded ">
+                Acheter 150 pièces
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="fermerBoutiqueOs()"
+          class="absolute top-2 right-3 text-gray-600 hover:text-black text-xl">✕</button>
+      </div>
+    </div>
+
+
+  </main>
+
+  <script>
+    function ouvrirBoutiqueOs() {
+      document.getElementById('modal-boutique').classList.remove('hidden');
+    }
+
+    function fermerBoutiqueOs() {
+      document.getElementById('modal-boutique').classList.add('hidden');
+    }
+
+    function acheterPieces(prix, quantite) {
+      fetch('/clicker/acheter-pieces', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ prix, quantite })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+          fermerBoutiqueOs();
+          afficherMessage(`✅ Vous avez reçu ${quantite} pièce${quantite > 1 ? 's' : ''} !`, true);
+          if (!isNaN(data.jetonsRestants)) {
+  document.getElementById('jetonsTotal').textContent = data.jetonsRestants;
+}
+        } else {
+          afficherMessage("❌ " + data.error, false);
+        }
+        })
+        .catch(err => {
+          console.error("Erreur d'achat de pièces :", err);
+        });
+    }
+
+
+    function acheterBoost() {
+      fetch('/clicker/acheter-boost', {
+        method: 'POST'
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+          fermerBoutiqueOs();
+          afficherMessage("✅ Boost activé !", true, false);
+          if (!isNaN(data.osRestants)) {
+            document.getElementById('osTotal').textContent = Number(data.osRestants).toFixed(2);
+          }
+        } else {
+          afficherMessage("❌ " + data.error, false, false);
+        }
+        })
+        .catch(err => {
+          console.error("Erreur boutique :", err);
+          alert("Erreur de connexion.");
+        });
+    }
+    function afficherMessage(message, succes, recharger = true) {
+  const msgDiv = document.createElement("div");
+  msgDiv.className = `fixed top-10 left-1/2 transform -translate-x-1/2 px-6 py-4 rounded-lg shadow-lg z-50 ${
+    succes ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+  }`;
+  msgDiv.innerText = message;
+
+  document.body.appendChild(msgDiv);
+
+  setTimeout(() => {
+    msgDiv.remove();
+    if (recharger) location.reload();
+  }, 1000);
+}
+
+
+
+    let draggedSlot = null;
+
+    function drag(e, index) {
+      draggedSlot = index;
+    }
+
+    function allowDrop(e) {
+      e.preventDefault(); // autorise le drop
+    }
+
+    function drop(e, targetIndex) {
+      e.preventDefault();
+      if (draggedSlot === null || draggedSlot === targetIndex) return;
+
+      fetch('/clicker/deplacer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: draggedSlot, to: targetIndex })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            location.reload(); // Recharge la page pour afficher le nouveau placement
+          } else {
+            alert("Erreur : " + data.error);
+          }
+        });
+
+      draggedSlot = null;
+    }
+  </script>
+
+  <script>
+
+
+
+    function collecterOs() {
+      console.log("🟢 Clic détecté !");
+      fetch('/clicker/collecter', { method: 'POST' })
+    .then(res => res.json())
+    .then(data => {
+      console.log("🔁 Réponse reçue :", data);
+      if (data.os !== undefined) {
+        // 🦴 MAJ du total d'os
+        document.getElementById('osTotal').textContent = Number(data.os).toFixed(2);
+
+        // 🚫 MAJ du bouton "Récolter"
+        const btn = document.getElementById('btn-recolter');
+        btn.disabled = true;
+        btn.textContent = "✨ Récolter 0 os";
+        btn.classList.remove("bg-green-500", "hover:bg-green-600", "text-white");
+        btn.classList.add("bg-gray-300", "text-gray-600", "cursor-not-allowed");
+
+        // ✅ message de confirmation
+        afficherMessage(`+${data.gain.toFixed(2)} os collectés`, true, false);
+      } else {
+        afficherMessage(data.error || "Erreur inconnue", false);
+      }
+    })
+    .catch(err => {
+      console.error("❌ Erreur JS :", err);
+      alert("Erreur de connexion.");
+    });
+}
+
+
+    function clickerCarte(slot) {
+      fetch(`/clicker/cliquer/${slot}`, { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+          console.log("✅ Réponse serveur :", data);
+
+          if (data.os !== undefined) {
+            document.getElementById('osTotal').textContent = data.os;
+
+            // 🔍 On cible la carte par son slot
+            const carteElement = document.querySelector(`[data-slot="${slot}"]`);
+            const flottant = carteElement?.querySelector('.gain-flottant');
+
+            if (data.gain > 0 && flottant) {
+              flottant.textContent = `+${data.gain.toFixed(2)}`;
+              flottant.classList.remove('hidden', 'animate-float-gain');
+              void flottant.offsetWidth;
+              flottant.classList.add('animate-float-gain');
+              setTimeout(() => {
+                flottant.classList.add('hidden');
+              }, 1000);
+            }
+          } else {
+            alert(data.error || "Erreur serveur");
+          }
+        });
+    }
+
+
+
+const assignForm = document.getElementById('assignForm');
+if (assignForm) {
+  assignForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+      const carteId = document.getElementById('carteId').value;
+
+      const res = await fetch('/clicker/assigner', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ carteId }) // ✅ on ne met plus l'emplacement
+      });
+
+      const data = await res.json();
+      const result = document.getElementById('assignResult');
+
+      if (data.success) {
+        result.textContent = `✅ Carte assignée avec Tier T${data.tier}`;
+        result.classList.remove('text-red-500');
+        result.classList.add('text-green-600');
+      } else {
+        result.textContent = `❌ ${data.error}`;
+        result.classList.remove('text-green-600');
+        result.classList.add('text-red-500');
+      }
+    });
+
+    let slotEnCours = null;
+
+    function onDragStart(event, slotIndex) {
+      slotEnCours = slotIndex;
+      event.dataTransfer.effectAllowed = 'move';
+    }
+
+    function onDragOver(event) {
+      event.preventDefault(); // nécessaire pour autoriser le drop
+      event.dataTransfer.dropEffect = 'move';
+    }
+
+    async function onDrop(event, slotCible) {
+      event.preventDefault();
+
+      if (slotEnCours === null || slotCible === slotEnCours) return;
+
+      try {
+        const res = await fetch('/clicker/deplacer', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ from: slotEnCours, to: slotCible })
+        });
+
+        const data = await res.json();
+        if (data.success) {
+          location.reload(); // recharge pour voir le changement
+        } else {
+          alert(data.error || 'Erreur lors du déplacement');
+        }
+      } catch (err) {
+        console.error('❌ Erreur déplacement :', err);
+        alert('Erreur serveur.');
+      }
+    }
+
+
+  }
+  function retirerCarte(slot) {
+      fetch(`/clicker/retirer/${slot}`, {
+        method: 'POST'
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            location.reload(); // recharge la page
+          } else {
+            alert("❌ " + data.error);
+          }
+        })
+        .catch(err => {
+          console.error("❌ Erreur JS suppression :", err);
+          alert("Erreur de connexion.");
+        });
+    }
+
+
+
+  </script>
+
+</body>
+
+</html>
