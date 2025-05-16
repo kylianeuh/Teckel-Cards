@@ -14,7 +14,8 @@
     <%= carte.nb_alternative %>,
     <%= carte.nb_noir_blanc %>,
     <%= carte.nb_gold %>,
-    decodeURIComponent('<%= encodeURIComponent(carte.image_url) %>')
+    decodeURIComponent('<%= encodeURIComponent(carte.image_url) %>'),
+    <%= carte.rarete %>
   )"
   <% if (typeof carte.index !== 'undefined') { %>
     draggable="true"

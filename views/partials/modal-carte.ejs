@@ -30,9 +30,11 @@
           </div>
 
           <button onclick="assignerAuClicker()"
-          class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded mt-4 w-full">
+          
+          class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded mt-2 w-full">
           ⚡ Assigner au Clicker
        </button>
+       <%= prod[carte.rarete]?.[carte.tier] %> os / heure
         </div>
   
         <!-- Colonne droite : transformation -->
@@ -55,6 +57,7 @@
             ⚡ Transformer
           </button>
 
+
           <div class="mt-6 bg-red-50 p-4 rounded shadow">
             <label class="font-semibold block mb-2">💰 Choisissez votre type de vente :</label>
             <div class="flex gap-2">
@@ -65,7 +68,7 @@
 <!-- Vente directe -->
 <div id="vente-directe" class="hidden mt-4 flex flex-col gap-2 bg-red-100 p-4 rounded">
     <label for="tier-vente" class="text-sm font-semibold">Tier à vendre :</label>
-    <select id="tier-vente" class="border rounded p-2">
+    <select id="tier-vente" onchange="mettreAJourGainVente()" class="border rounded p-2">
       <option value="nb_exemplaires">T0</option>
       <option value="nb_brillante">T1</option>
       <option value="nb_alternative">T2</option>
@@ -73,10 +76,10 @@
       <option value="nb_gold">T4</option>
     </select>
   
-    <label for="quantite-vente" class="text-sm font-semibold">Quantité :</label>
+    <label for="quantite-vente" class="text-sm font-semibold" oninput="mettreAJourGainVente()">Quantité :</label>
     <input type="number" id="quantite-vente" class="border rounded p-2 w-24" value="1" min="1" />
   
-    <button onclick="vendreCarte()" class="bg-red-600 text-white py-2 rounded font-bold">✅ Confirmer la vente directe</button>
+    <button onclick="vendreCarte()" class="bg-red-600 text-white py-2 rounded font-bold">Vendre pour <span id="gain-estime">0</span> Jetons</button>
   </div>
   
   <!-- Vente au marché -->

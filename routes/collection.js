@@ -43,10 +43,22 @@ module.exports = (app, pool, rarityLetters, color1, color2) => {
           if (carte.nb_noir_blanc > 0)  statsTier.T3++;
           if (carte.nb_gold > 0)        statsTier.T4++;
         });
+
+          
+      // Valeur de base
+      const prod = {
+        1: [20, 50, 100, 150, 400],
+        2: [30, 70, 150, 300, 700],
+        3: [50, 100, 180, 450, 1000],
+        4: [70, 140, 240, 550, 1300],
+        5: [100, 200, 380, 600, 1600],
+        6: [150, 300, 450, 850, 2000]
+      };
           
   
         res.render("collection", {
           utilisateur: req.session.utilisateur,
+          prod,
             cartes,
             statsTier,
             cartePreview: null,

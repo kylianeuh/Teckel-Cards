@@ -116,5 +116,73 @@ module.exports = (app, pool) => {
       });
     });
   });
+
+  app.post('/vendre-direct', async (req, res) => {
+    const utilisateur = req.session.utilisateur;
+    if (!utilisateur) return res.status(401).send("Non connecté");
+
+    const { carte_id, quantite, type } = req.body;
+    const quantiteInt = parseInt(quantite);
+    const utilisateurId = utilisateur.id;
+
+    const tiers = {
+      nb_exemplaires: 0,
+      nb_brillante: 1,
+      nb_alternative: 2,
+      nb_noir_blanc: 3,
+      nb_gold: 4
+    };
+
+    const prixJetons = {
+      0: [1, 2, 5, 10, 20, 50],
+      1: [5, 10, 25, 50, 100, 250],
+      2: [30, 60, 150, 300, 600, 1500],
+      3: [225, 450, 1125, 2250, 4500, 11250],
+      4: [2250, 4500, 11250, 22500, 45000, 112500]
+    };
+
+    const tier = tiers[type];
+    if (tier === undefined) return res.status(400).send("Tier non reconnu");
+
+    try {
+      const { rows } = await pool.query(`
+        SELECT c.rarete, col.${type} AS dispo
+        FROM collections col
+        JOIN cartes c ON c.id = col.carte_id
+        WHERE col.utilisateur_id = $1 AND col.carte_id = $2
+      `, [utilisateurId, carte_id]);
+      
+
+      const carte = rows[0];
+      if (!carte || carte.dispo < quantiteInt) {
+        return res.status(400).send("Pas assez de cartes à vendre");
+      }
+
+      const rarete = carte.rarete;
+      const prixUnitaire = prixJetons[tier][rarete - 1];
+      const total = prixUnitaire * quantiteInt;
+
+      await pool.query(`
+        UPDATE collections
+        SET ${type} = ${type} - $1
+        WHERE utilisateur_id = $2 AND carte_id = $3
+      `, [quantiteInt, utilisateurId, carte_id]);
+
+      await pool.query(`
+        UPDATE utilisateurs
+        SET jetons = jetons + $1
+        WHERE id = $2
+      `, [total, utilisateurId]);
+
+      // 🟢 Met à jour la session pour l'affichage en front
+      req.session.utilisateur.jetons = (req.session.utilisateur.jetons || 0) + total;
+
+      return res.status(200).send("Vente directe réussie !");
+    } catch (err) {
+      console.error("❌ Erreur vente directe :", err);
+      return res.status(500).send("Erreur serveur");
+    }
+  });
+
   
 };
